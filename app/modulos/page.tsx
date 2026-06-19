@@ -26,8 +26,8 @@ function ModuleIcon({ id }: { id: number }) {
 }
 
 const MODULE_COLORS = [
-  { accent: "#8b5cf6", glow: "rgba(139,92,246,0.2)", border: "rgba(139,92,246,0.25)", bg: "rgba(109,40,217,0.08)" },
-  { accent: "#e879f9", glow: "rgba(217,70,239,0.2)", border: "rgba(217,70,239,0.25)", bg: "rgba(192,38,211,0.08)" },
+  { accent: "#2563eb", glow: "rgba(37,99,235,0.2)", border: "rgba(37,99,235,0.25)", bg: "rgba(30,64,175,0.08)" },
+  { accent: "#0ea5e9", glow: "rgba(14,165,233,0.2)", border: "rgba(14,165,233,0.25)", bg: "rgba(2,132,199,0.08)" },
   { accent: "#38bdf8", glow: "rgba(56,189,248,0.2)", border: "rgba(6,182,212,0.25)",  bg: "rgba(6,182,212,0.08)"  },
 ];
 
@@ -54,20 +54,20 @@ export default async function ModulosPage() {
         className="relative overflow-hidden rounded-3xl p-8 sm:p-10 mb-10 anim-fade-up"
         style={{
           background: "rgba(10,10,22,0.7)",
-          border: "1px solid rgba(139,92,246,0.18)",
-          boxShadow: "0 30px 60px rgba(0,0,0,0.4), 0 0 60px rgba(109,40,217,0.06)",
+          border: "1px solid rgba(37,99,235,0.18)",
+          boxShadow: "0 30px 60px rgba(0,0,0,0.4), 0 0 60px rgba(30,64,175,0.06)",
           backdropFilter: "blur(20px)",
         }}
       >
         <div
           className="absolute -top-24 -right-24 w-80 h-80 rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%)", filter: "blur(40px)" }}
+          style={{ background: "radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%)", filter: "blur(40px)" }}
         />
         <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
             <span
               className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-4"
-              style={{ background: "rgba(139,92,246,0.1)", border: "1px solid rgba(139,92,246,0.2)", color: "#a78bfa" }}
+              style={{ background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.2)", color: "#60a5fa" }}
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3">
                 <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
@@ -184,7 +184,7 @@ export default async function ModulosPage() {
                   ) : modulo.completado ? (
                     <span className="text-emerald-400">Completado ✓</span>
                   ) : (
-                    <span className="text-violet-400">En curso</span>
+                    <span className="text-blue-400">En curso</span>
                   )}
                 </div>
 

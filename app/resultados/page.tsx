@@ -87,20 +87,20 @@ export default async function ResultadosPage() {
       <div
         className="relative overflow-hidden rounded-3xl p-8 sm:p-10 mb-10 anim-fade-up"
         style={{
-          background: "linear-gradient(135deg, rgba(192,38,211,0.12) 0%, rgba(10,10,22,0.85) 60%)",
-          border: "1px solid rgba(217,70,239,0.2)",
+          background: "linear-gradient(135deg, rgba(2,132,199,0.12) 0%, rgba(10,10,22,0.85) 60%)",
+          border: "1px solid rgba(14,165,233,0.2)",
           backdropFilter: "blur(20px)",
-          boxShadow: "0 30px 60px rgba(0,0,0,0.4), 0 0 60px rgba(192,38,211,0.06)",
+          boxShadow: "0 30px 60px rgba(0,0,0,0.4), 0 0 60px rgba(2,132,199,0.06)",
         }}
       >
         <div
           className="absolute -top-20 -right-20 w-72 h-72 rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(217,70,239,0.12) 0%, transparent 70%)", filter: "blur(40px)" }}
+          style={{ background: "radial-gradient(circle, rgba(14,165,233,0.12) 0%, transparent 70%)", filter: "blur(40px)" }}
         />
         <nav className="relative flex items-center gap-2 text-xs mb-5" style={{ color: "#4b5563" }}>
           <Link href="/dashboard" className="hover:text-zinc-300 transition-colors">Inicio</Link>
           <span>/</span>
-          <span style={{ color: "#e879f9" }}>Mis Resultados</span>
+          <span style={{ color: "#38bdf8" }}>Mis Resultados</span>
         </nav>
         <h1 className="relative text-3xl sm:text-4xl font-black tracking-tight text-white mb-2">
           Mis{" "}
@@ -114,7 +114,7 @@ export default async function ResultadosPage() {
         {resultados.length > 0 && (
           <div className="relative flex flex-wrap gap-4 mt-6">
             {[
-              { label: "Evaluaciones",  value: resultados.length, color: "#a78bfa" },
+              { label: "Evaluaciones",  value: resultados.length, color: "#60a5fa" },
               { label: "Promedio",      value: `${promedio}%`,    color: promedio! >= 70 ? "#34d399" : "#f87171" },
               { label: "Aprobadas",     value: aprobados,          color: "#34d399" },
               { label: "Perfectas",     value: perfectos,          color: "#fbbf24" },
@@ -136,13 +136,13 @@ export default async function ResultadosPage() {
       {resultados.length === 0 ? (
         <div
           className="rounded-2xl p-12 text-center anim-fade-up delay-150"
-          style={{ background: "rgba(10,10,22,0.6)", border: "1px dashed rgba(139,92,246,0.2)", backdropFilter: "blur(12px)" }}
+          style={{ background: "rgba(10,10,22,0.6)", border: "1px dashed rgba(37,99,235,0.2)", backdropFilter: "blur(12px)" }}
         >
           <div
             className="inline-flex items-center justify-center h-16 w-16 rounded-2xl mb-5"
-            style={{ background: "rgba(139,92,246,0.08)", border: "1px solid rgba(139,92,246,0.2)" }}
+            style={{ background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.2)" }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="#8b5cf6" className="w-8 h-8">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="#2563eb" className="w-8 h-8">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25Z" />
             </svg>
           </div>
@@ -151,7 +151,7 @@ export default async function ResultadosPage() {
           <Link
             href="/modulos"
             className="btn-glow inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white"
-            style={{ background: "linear-gradient(135deg, #6d28d9, #c026d3)", boxShadow: "0 0 20px rgba(109,40,217,0.3)" }}
+            style={{ background: "linear-gradient(135deg, #1e40af, #0284c7)", boxShadow: "0 0 20px rgba(30,64,175,0.3)" }}
           >
             Ir a los módulos
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
@@ -175,9 +175,9 @@ export default async function ResultadosPage() {
               <div className="flex items-center gap-4">
                 <div
                   className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110"
-                  style={{ background: "rgba(217,70,239,0.08)", border: "1px solid rgba(217,70,239,0.2)" }}
+                  style={{ background: "rgba(14,165,233,0.08)", border: "1px solid rgba(14,165,233,0.2)" }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#e879f9" className="w-5 h-5">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#38bdf8" className="w-5 h-5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
                   </svg>
                 </div>
@@ -208,7 +208,7 @@ export default async function ResultadosPage() {
                 <Link
                   href={`/resultados/${r.id}`}
                   className="rounded-xl px-3 py-1.5 text-xs font-semibold transition-all duration-200 hover:scale-[1.03]"
-                  style={{ background: "rgba(139,92,246,0.08)", border: "1px solid rgba(139,92,246,0.2)", color: "#a78bfa" }}
+                  style={{ background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.2)", color: "#60a5fa" }}
                 >
                   Ver detalle
                 </Link>

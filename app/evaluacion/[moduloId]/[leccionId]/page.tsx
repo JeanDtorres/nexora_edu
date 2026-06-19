@@ -101,13 +101,13 @@ export default function EvaluacionLeccionPage({ params }: PageProps) {
 
   const scoreColor = resultado
     ? pasoLeccion ? "#34d399" : "#f87171"
-    : "#8b5cf6";
+    : "#2563eb";
   const scoreBg = resultado
     ? pasoLeccion ? "rgba(16,185,129,0.08)" : "rgba(239,68,68,0.08)"
-    : "rgba(139,92,246,0.08)";
+    : "rgba(37,99,235,0.08)";
   const scoreBorder = resultado
     ? pasoLeccion ? "rgba(16,185,129,0.25)" : "rgba(239,68,68,0.25)"
-    : "rgba(139,92,246,0.25)";
+    : "rgba(37,99,235,0.25)";
 
   const scoreEmoji = resultado
     ? pasoLeccion ? "🏆" : "📚"
@@ -125,7 +125,7 @@ export default function EvaluacionLeccionPage({ params }: PageProps) {
         <span>/</span>
         <Link href={`/modulos/${modulo.id}/lecciones/${leccion.id}`} className="hover:text-zinc-300 transition-colors truncate max-w-[100px]">Lección {leccion.id}</Link>
         <span>/</span>
-        <span style={{ color: "#8b5cf6" }}>Evaluación</span>
+        <span style={{ color: "#2563eb" }}>Evaluación</span>
       </nav>
 
       {/* Header card */}
@@ -133,7 +133,7 @@ export default function EvaluacionLeccionPage({ params }: PageProps) {
         className="rounded-2xl p-6 sm:p-8 mb-8 anim-fade-up"
         style={{
           background: "rgba(10,10,22,0.7)",
-          border: "1px solid rgba(139,92,246,0.2)",
+          border: "1px solid rgba(37,99,235,0.2)",
           backdropFilter: "blur(20px)",
           boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
         }}
@@ -141,7 +141,7 @@ export default function EvaluacionLeccionPage({ params }: PageProps) {
         <div className="flex items-center gap-3 mb-3">
           <span
             className="rounded-lg px-2.5 py-1 text-xs font-bold font-mono"
-            style={{ background: "rgba(139,92,246,0.12)", border: "1px solid rgba(139,92,246,0.25)", color: "#a78bfa" }}
+            style={{ background: "rgba(37,99,235,0.12)", border: "1px solid rgba(37,99,235,0.25)", color: "#60a5fa" }}
           >
             MOD {modulo.id} · LEC {leccion.id}
           </span>
@@ -164,15 +164,15 @@ export default function EvaluacionLeccionPage({ params }: PageProps) {
           <div className="mt-5">
             <div className="flex justify-between text-xs mb-2" style={{ color: "#6b7280" }}>
               <span>{respondidas} de {total} respondidas</span>
-              <span style={{ color: "#8b5cf6" }}>{progreso}%</span>
+              <span style={{ color: "#2563eb" }}>{progreso}%</span>
             </div>
             <div className="h-2 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
               <div
                 className="h-full rounded-full transition-all duration-500"
                 style={{
                   width: `${progreso}%`,
-                  background: "linear-gradient(90deg, #7c3aed, #c026d3)",
-                  boxShadow: progreso > 0 ? "0 0 12px rgba(139,92,246,0.5)" : "none",
+                  background: "linear-gradient(90deg, #1e40af, #0284c7)",
+                  boxShadow: progreso > 0 ? "0 0 12px rgba(37,99,235,0.5)" : "none",
                 }}
               />
             </div>
@@ -210,7 +210,7 @@ export default function EvaluacionLeccionPage({ params }: PageProps) {
             <Link
               href={`/modulos/${modulo.id}`}
               className="btn-glow inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200"
-              style={{ background: "rgba(139,92,246,0.1)", border: "1px solid rgba(139,92,246,0.3)", color: "#a78bfa" }}
+              style={{ background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.3)", color: "#60a5fa" }}
             >
               Volver al Módulo
             </Link>
@@ -257,9 +257,9 @@ export default function EvaluacionLeccionPage({ params }: PageProps) {
                 <span
                   className="shrink-0 flex h-7 w-7 items-center justify-center rounded-full text-xs font-black"
                   style={{
-                    background: detalle ? (detalle.esCorrecta ? "rgba(16,185,129,0.15)" : "rgba(239,68,68,0.15)") : "rgba(139,92,246,0.15)",
-                    border: `1px solid ${detalle ? (detalle.esCorrecta ? "rgba(16,185,129,0.4)" : "rgba(239,68,68,0.4)") : "rgba(139,92,246,0.35)"}`,
-                    color: detalle ? (detalle.esCorrecta ? "#34d399" : "#f87171") : "#a78bfa",
+                    background: detalle ? (detalle.esCorrecta ? "rgba(16,185,129,0.15)" : "rgba(239,68,68,0.15)") : "rgba(37,99,235,0.15)",
+                    border: `1px solid ${detalle ? (detalle.esCorrecta ? "rgba(16,185,129,0.4)" : "rgba(239,68,68,0.4)") : "rgba(37,99,235,0.35)"}`,
+                    color: detalle ? (detalle.esCorrecta ? "#34d399" : "#f87171") : "#60a5fa",
                   }}
                 >
                   {detalle ? (detalle.esCorrecta ? "✓" : "✗") : pregIdx + 1}
@@ -291,8 +291,8 @@ export default function EvaluacionLeccionPage({ params }: PageProps) {
                       bg = "transparent"; border = "rgba(255,255,255,0.04)"; textColor = "#4b5563";
                     }
                   } else if (esSeleccionada) {
-                    bg = "rgba(139,92,246,0.08)"; border = "rgba(139,92,246,0.5)"; textColor = "#c4b5fd";
-                    indicatorBg = "rgba(139,92,246,0.2)"; indicatorBorder = "rgba(139,92,246,0.6)"; indicatorColor = "#a78bfa";
+                    bg = "rgba(37,99,235,0.08)"; border = "rgba(37,99,235,0.5)"; textColor = "#93c5fd";
+                    indicatorBg = "rgba(37,99,235,0.2)"; indicatorBorder = "rgba(37,99,235,0.6)"; indicatorColor = "#60a5fa";
                   }
 
                   return (
@@ -350,11 +350,11 @@ export default function EvaluacionLeccionPage({ params }: PageProps) {
             className="btn-glow inline-flex items-center justify-center gap-2 rounded-2xl px-10 py-4 text-sm font-black text-white transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none"
             style={{
               background: todasRespondidas
-                ? "linear-gradient(135deg, #6d28d9, #9333ea, #c026d3)"
+                ? "linear-gradient(135deg, #1e40af, #2563eb, #0284c7)"
                 : "rgba(255,255,255,0.05)",
               backgroundSize: "200% 200%",
               animation: todasRespondidas ? "gradient-x 3s ease infinite" : "none",
-              boxShadow: todasRespondidas ? "0 0 30px rgba(109,40,217,0.4), 0 4px 20px rgba(0,0,0,0.5)" : "none",
+              boxShadow: todasRespondidas ? "0 0 30px rgba(30,64,175,0.4), 0 4px 20px rgba(0,0,0,0.5)" : "none",
               border: todasRespondidas ? "none" : "1px solid rgba(255,255,255,0.08)",
             }}
           >

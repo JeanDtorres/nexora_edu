@@ -40,9 +40,9 @@ export default async function DashboardPage() {
       <div
         className="relative overflow-hidden rounded-3xl p-8 sm:p-10 mb-10 anim-fade-up"
         style={{
-          background: "linear-gradient(135deg, rgba(109,40,217,0.15) 0%, rgba(12,12,26,0.8) 50%, rgba(192,38,211,0.1) 100%)",
-          border: "1px solid rgba(139,92,246,0.2)",
-          boxShadow: "0 0 60px rgba(109,40,217,0.08), 0 30px 60px rgba(0,0,0,0.4)",
+          background: "linear-gradient(135deg, rgba(30,64,175,0.15) 0%, rgba(12,12,26,0.8) 50%, rgba(2,132,199,0.1) 100%)",
+          border: "1px solid rgba(37,99,235,0.2)",
+          boxShadow: "0 0 60px rgba(30,64,175,0.08), 0 30px 60px rgba(0,0,0,0.4)",
           backdropFilter: "blur(20px)",
         }}
       >
@@ -53,7 +53,7 @@ export default async function DashboardPage() {
         <div
           className="absolute -top-20 -right-20 w-80 h-80 rounded-full pointer-events-none"
           style={{
-            background: "radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%)",
             filter: "blur(40px)",
             animation: "orb-drift 10s ease-in-out infinite",
           }}
@@ -61,7 +61,7 @@ export default async function DashboardPage() {
         <div
           className="absolute -bottom-16 left-1/4 w-64 h-64 rounded-full pointer-events-none"
           style={{
-            background: "radial-gradient(circle, rgba(217,70,239,0.1) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(14,165,233,0.1) 0%, transparent 70%)",
             filter: "blur(40px)",
             animation: "orb-drift 14s ease-in-out infinite 3s",
           }}
@@ -100,12 +100,12 @@ export default async function DashboardPage() {
             <div
               className="rounded-2xl px-5 py-4 text-center min-w-[90px]"
               style={{
-                background: "rgba(109,40,217,0.12)",
-                border: "1px solid rgba(139,92,246,0.2)",
+                background: "rgba(30,64,175,0.12)",
+                border: "1px solid rgba(37,99,235,0.2)",
               }}
             >
               <p className="text-2xl font-black text-white">{evalCount}</p>
-              <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: "#7c3aed" }}>Evaluaciones</p>
+              <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: "#3b82f6" }}>Evaluaciones</p>
             </div>
             {lastScore !== null && (
               <div
@@ -138,7 +138,7 @@ export default async function DashboardPage() {
           className="group module-card relative rounded-2xl p-7 sm:p-8 block anim-fade-up delay-150"
           style={{
             background: "rgba(10,10,22,0.6)",
-            border: "1px solid rgba(109,40,217,0.18)",
+            border: "1px solid rgba(30,64,175,0.18)",
             boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
             backdropFilter: "blur(12px)",
           }}
@@ -146,12 +146,12 @@ export default async function DashboardPage() {
           <div
             className="flex h-13 w-13 items-center justify-center rounded-xl mb-6 transition-all duration-300"
             style={{
-              background: "rgba(109,40,217,0.12)",
-              border: "1px solid rgba(139,92,246,0.2)",
+              background: "rgba(30,64,175,0.12)",
+              border: "1px solid rgba(37,99,235,0.2)",
               width: "3.25rem", height: "3.25rem",
             }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#a78bfa" className="w-6 h-6 transition-all duration-300 group-hover:stroke-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#60a5fa" className="w-6 h-6 transition-all duration-300 group-hover:stroke-white">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
             </svg>
           </div>
@@ -161,7 +161,7 @@ export default async function DashboardPage() {
           <p className="text-sm leading-relaxed mb-6" style={{ color: "#6b7280" }}>
             Explora lecciones, recursos interactivos y las asignaciones del curso en progreso.
           </p>
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold transition-all duration-300 group-hover:translate-x-2" style={{ color: "#8b5cf6" }}>
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold transition-all duration-300 group-hover:translate-x-2" style={{ color: "#2563eb" }}>
             Ingresar al contenido
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0-7.5 7.5M21 12H3" />
@@ -170,7 +170,7 @@ export default async function DashboardPage() {
           {/* Gradient corner accent */}
           <div
             className="absolute top-0 right-0 w-32 h-32 rounded-br-none rounded-tl-none rounded-3xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            style={{ background: "radial-gradient(circle at top right, rgba(139,92,246,0.15) 0%, transparent 70%)" }}
+            style={{ background: "radial-gradient(circle at top right, rgba(37,99,235,0.15) 0%, transparent 70%)" }}
           />
         </Link>
 
@@ -180,7 +180,7 @@ export default async function DashboardPage() {
           className="group module-card relative rounded-2xl p-7 sm:p-8 block anim-fade-up delay-200"
           style={{
             background: "rgba(10,10,22,0.6)",
-            border: "1px solid rgba(192,38,211,0.15)",
+            border: "1px solid rgba(2,132,199,0.15)",
             boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
             backdropFilter: "blur(12px)",
           }}
@@ -188,12 +188,12 @@ export default async function DashboardPage() {
           <div
             className="flex items-center justify-center rounded-xl mb-6 transition-all duration-300"
             style={{
-              background: "rgba(192,38,211,0.1)",
-              border: "1px solid rgba(217,70,239,0.2)",
+              background: "rgba(2,132,199,0.1)",
+              border: "1px solid rgba(14,165,233,0.2)",
               width: "3.25rem", height: "3.25rem",
             }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#e879f9" className="w-6 h-6 transition-all duration-300 group-hover:stroke-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#38bdf8" className="w-6 h-6 transition-all duration-300 group-hover:stroke-white">
               <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z" />
             </svg>
           </div>
@@ -203,7 +203,7 @@ export default async function DashboardPage() {
           <p className="text-sm leading-relaxed mb-6" style={{ color: "#6b7280" }}>
             Monitorea calificaciones, retroalimentación y estadísticas de progreso semanal.
           </p>
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold transition-all duration-300 group-hover:translate-x-2" style={{ color: "#d946ef" }}>
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold transition-all duration-300 group-hover:translate-x-2" style={{ color: "#0ea5e9" }}>
             Ver calificaciones
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0-7.5 7.5M21 12H3" />
@@ -211,7 +211,7 @@ export default async function DashboardPage() {
           </span>
           <div
             className="absolute top-0 right-0 w-32 h-32 rounded-3xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            style={{ background: "radial-gradient(circle at top right, rgba(217,70,239,0.12) 0%, transparent 70%)" }}
+            style={{ background: "radial-gradient(circle at top right, rgba(14,165,233,0.12) 0%, transparent 70%)" }}
           />
         </Link>
       </div>

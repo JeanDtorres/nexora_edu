@@ -96,7 +96,7 @@ export default async function ResultadoDetailPage({ params }: PageProps) {
         <span>/</span>
         <Link href="/resultados" className="hover:text-zinc-300 transition-colors">Resultados</Link>
         <span>/</span>
-        <span style={{ color: "#a78bfa" }}>Detalle</span>
+        <span style={{ color: "#60a5fa" }}>Detalle</span>
       </nav>
 
       {/* Score hero */}
@@ -208,8 +208,8 @@ export default async function ResultadoDetailPage({ params }: PageProps) {
 
               {/* Explanation */}
               <div className="rounded-xl px-4 py-3"
-                style={{ background: "rgba(139,92,246,0.06)", border: "1px solid rgba(139,92,246,0.15)" }}>
-                <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: "#7c3aed" }}>Explicación</p>
+                style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.15)" }}>
+                <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: "#2563eb" }}>Explicación</p>
                 <p className="text-xs leading-relaxed" style={{ color: "#9ca3af" }}>{d.explicacion}</p>
               </div>
             </div>
@@ -223,9 +223,9 @@ export default async function ResultadoDetailPage({ params }: PageProps) {
           <Link href={`/evaluacion/${moduloId}/${leccionId}`}
             className="flex-1 text-center rounded-xl py-3.5 text-sm font-bold transition-all duration-200 hover:scale-[1.02]"
             style={{
-              background: "linear-gradient(135deg, #6d28d9, #c026d3)",
+              background: "linear-gradient(135deg, #1e40af, #0284c7)",
               color: "white",
-              boxShadow: "0 0 20px rgba(109,40,217,0.3)",
+              boxShadow: "0 0 20px rgba(30,64,175,0.3)",
             }}>
             Intentar de nuevo
           </Link>

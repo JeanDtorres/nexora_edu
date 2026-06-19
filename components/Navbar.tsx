@@ -25,23 +25,23 @@ export default function Navbar() {
   /* ── derived palette ── */
   const nav = {
     bg:     dark ? "rgba(5,5,15,0.78)"           : "rgba(255,255,255,0.88)",
-    border: dark ? "rgba(139,92,246,0.12)"        : "rgba(13,44,82,0.1)",
+    border: dark ? "rgba(37,99,235,0.12)"        : "rgba(13,44,82,0.1)",
     shadow: dark
-      ? "0 1px 0 rgba(139,92,246,0.08), 0 4px 20px rgba(0,0,0,0.4)"
+      ? "0 1px 0 rgba(37,99,235,0.08), 0 4px 20px rgba(0,0,0,0.4)"
       : "0 1px 0 rgba(13,44,82,0.06), 0 4px 20px rgba(13,44,82,0.06)",
     linkDefault: dark ? "#9ca3af" : "#4b5563",
-    linkActive:  dark ? "#c4b5fd" : "#0d5ca8",
-    linkActiveBg: dark ? "rgba(139,92,246,0.1)" : "rgba(13,92,168,0.08)",
+    linkActive:  dark ? "#93c5fd" : "#0d5ca8",
+    linkActiveBg: dark ? "rgba(37,99,235,0.1)" : "rgba(13,92,168,0.08)",
     linkUnderline: dark
-      ? "linear-gradient(90deg,#8b5cf6,#d946ef)"
+      ? "linear-gradient(90deg,#2563eb,#0ea5e9)"
       : "linear-gradient(90deg,#0d5ca8,#00c8e8)",
-    brand: dark ? "#c4b5fd" : "#0d5ca8",
+    brand: dark ? "#93c5fd" : "#0d5ca8",
     iconGradFrom: dark ? "#1a5cbf" : "#0d2752",
     iconGradTo:   "#00c8e8",
-    pillBg:    dark ? "rgba(139,92,246,0.15)" : "rgba(13,92,168,0.1)",
-    pillBorder: dark ? "rgba(139,92,246,0.3)" : "rgba(13,92,168,0.25)",
-    pillText:  dark ? "#a78bfa"               : "#0d5ca8",
-    avatarBg:  dark ? "linear-gradient(135deg,#7c3aed,#c026d3)" : "linear-gradient(135deg,#0d5ca8,#00c8e8)",
+    pillBg:    dark ? "rgba(37,99,235,0.15)" : "rgba(13,92,168,0.1)",
+    pillBorder: dark ? "rgba(37,99,235,0.3)" : "rgba(13,92,168,0.25)",
+    pillText:  dark ? "#60a5fa"               : "#0d5ca8",
+    avatarBg:  dark ? "linear-gradient(135deg,#1e40af,#0284c7)" : "linear-gradient(135deg,#0d5ca8,#00c8e8)",
     nameColor: dark ? "#e2e8f0" : "#0d2752",
     roleColor: dark ? "#71717a" : "#6b7280",
     logoutBg:    dark ? "rgba(255,255,255,0.04)"  : "rgba(13,44,82,0.04)",
@@ -49,8 +49,8 @@ export default function Navbar() {
     logoutColor: dark ? "#9ca3af" : "#4b5563",
     toggleBg:    dark ? "rgba(255,255,255,0.06)"  : "rgba(13,44,82,0.06)",
     toggleBorder: dark ? "rgba(255,255,255,0.1)"  : "rgba(13,44,82,0.12)",
-    toggleColor: dark ? "#a78bfa" : "#0d5ca8",
-    mobileBorder: dark ? "rgba(139,92,246,0.1)" : "rgba(13,44,82,0.08)",
+    toggleColor: dark ? "#60a5fa" : "#0d5ca8",
+    mobileBorder: dark ? "rgba(37,99,235,0.1)" : "rgba(13,44,82,0.08)",
     mobileLinkDefault: dark ? "#6b7280" : "#4b5563",
   };
 
@@ -99,7 +99,7 @@ export default function Navbar() {
                   {isActive && (
                     <span
                       className="absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 rounded-full"
-                      style={{ width: "60%", background: nav.linkUnderline, boxShadow: dark ? "0 0 8px rgba(139,92,246,0.6)" : "0 0 6px rgba(13,92,168,0.35)" }}
+                      style={{ width: "60%", background: nav.linkUnderline, boxShadow: dark ? "0 0 8px rgba(37,99,235,0.6)" : "0 0 6px rgba(13,92,168,0.35)" }}
                     />
                   )}
                 </Link>
@@ -120,7 +120,7 @@ export default function Navbar() {
                 border: `1px solid ${nav.toggleBorder}`,
                 color: nav.toggleColor,
               }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = dark ? "rgba(139,92,246,0.12)" : "rgba(13,92,168,0.1)"; }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = dark ? "rgba(37,99,235,0.12)" : "rgba(13,92,168,0.1)"; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = nav.toggleBg; }}
             >
               {dark ? (
@@ -149,7 +149,7 @@ export default function Navbar() {
               </div>
               <div
                 className="relative flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold text-white select-none"
-                style={{ background: nav.avatarBg, boxShadow: dark ? "0 0 0 2px rgba(139,92,246,0.3), 0 0 16px rgba(139,92,246,0.3)" : "0 0 0 2px rgba(13,92,168,0.25), 0 0 12px rgba(13,92,168,0.15)" }}
+                style={{ background: nav.avatarBg, boxShadow: dark ? "0 0 0 2px rgba(37,99,235,0.3), 0 0 16px rgba(37,99,235,0.3)" : "0 0 0 2px rgba(13,92,168,0.25), 0 0 12px rgba(13,92,168,0.15)" }}
               >
                 {user.nombre.charAt(0).toUpperCase()}
                 <span

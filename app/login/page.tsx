@@ -47,12 +47,12 @@ export default function LoginPage() {
           <div
             className="h-12 w-12 rounded-full border-4 border-t-transparent"
             style={{
-              borderColor: dark ? "rgba(139,92,246,0.3)" : "rgba(13,92,168,0.25)",
-              borderTopColor: dark ? "#8b5cf6" : "#0d5ca8",
+              borderColor: dark ? "rgba(37,99,235,0.3)" : "rgba(13,92,168,0.25)",
+              borderTopColor: dark ? "#2563eb" : "#0d5ca8",
               animation: "spin 0.8s linear infinite",
             }}
           />
-          <p className="text-sm font-medium" style={{ color: dark ? "#7c3aed" : "#0d5ca8" }}>Verificando sesión…</p>
+          <p className="text-sm font-medium" style={{ color: dark ? "#1d4ed8" : "#0d5ca8" }}>Verificando sesión…</p>
         </div>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
@@ -66,21 +66,21 @@ export default function LoginPage() {
     cardShadow:  dark
       ? "0 0 0 1px rgba(0,200,232,0.06) inset, 0 30px 60px rgba(0,0,0,0.65), 0 0 60px rgba(0,180,220,0.1)"
       : "0 0 0 1px rgba(255,255,255,0.6) inset, 0 20px 50px rgba(0,0,0,0.25), 0 4px 16px rgba(0,0,0,0.15)",
-    labelColor:  dark ? "#7c3aed" : "#0d5ca8",
+    labelColor:  dark ? "#1d4ed8" : "#0d5ca8",
     inputBg:     dark ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.95)",
     inputBorder: dark ? "rgba(255,255,255,0.08)" : "rgba(13,44,82,0.15)",
     inputText:   dark ? "white" : "#0d2752",
     inputPlaceholder: dark ? "#52525b" : "#9ca3af",
     btnGrad:     dark
-      ? "linear-gradient(135deg, #6d28d9 0%, #9333ea 50%, #c026d3 100%)"
+      ? "linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #0284c7 100%)"
       : "linear-gradient(135deg, #0d4a9e 0%, #0d5ca8 50%, #0a9fd4 100%)",
     btnShadow:   dark
-      ? "0 0 30px rgba(109,40,217,0.4), 0 4px 15px rgba(0,0,0,0.4)"
+      ? "0 0 30px rgba(30,64,175,0.4), 0 4px 15px rgba(0,0,0,0.4)"
       : "0 0 20px rgba(13,92,168,0.3), 0 4px 15px rgba(0,0,0,0.15)",
     footerText:  dark ? "#374151" : "#9ca3af",
     toggleBg:    dark ? "rgba(255,255,255,0.06)" : "rgba(13,44,82,0.05)",
     toggleBorder: dark ? "rgba(255,255,255,0.1)" : "rgba(13,44,82,0.12)",
-    toggleColor: dark ? "#a78bfa" : "#0d5ca8",
+    toggleColor: dark ? "#60a5fa" : "#0d5ca8",
   };
 
   return (
@@ -105,7 +105,7 @@ export default function LoginPage() {
         style={{
           top: "-200px", left: "-200px",
           background: dark
-            ? "radial-gradient(circle, rgba(109,40,217,0.2) 0%, transparent 65%)"
+            ? "radial-gradient(circle, rgba(30,64,175,0.2) 0%, transparent 65%)"
             : "radial-gradient(circle, rgba(13,92,168,0.12) 0%, transparent 65%)",
           filter: "blur(60px)",
           animation: "orb-drift 14s ease-in-out infinite",
@@ -116,7 +116,7 @@ export default function LoginPage() {
         style={{
           bottom: "-150px", right: "-100px",
           background: dark
-            ? "radial-gradient(circle, rgba(192,38,211,0.15) 0%, transparent 65%)"
+            ? "radial-gradient(circle, rgba(2,132,199,0.15) 0%, transparent 65%)"
             : "radial-gradient(circle, rgba(0,180,216,0.1) 0%, transparent 65%)",
           filter: "blur(60px)",
           animation: "orb-drift 18s ease-in-out infinite 5s",
@@ -172,7 +172,7 @@ export default function LoginPage() {
           {/* Anillo de glow pulsante (solo dark) */}
           {dark && (
             <div className="absolute -inset-[1px] rounded-[25px] pointer-events-none" style={{
-              background: "linear-gradient(135deg, rgba(0,200,232,0.45), rgba(109,40,217,0.35), rgba(0,200,232,0.45))",
+              background: "linear-gradient(135deg, rgba(0,200,232,0.45), rgba(30,64,175,0.35), rgba(0,200,232,0.45))",
               animation: "glowRing 3.5s ease-in-out infinite",
               filter: "blur(1px)",
             }}/>
@@ -278,7 +278,7 @@ export default function LoginPage() {
                     if (!isSubmitting) {
                       (e.currentTarget as HTMLElement).style.transform = "scale(1.025)";
                       (e.currentTarget as HTMLElement).style.boxShadow = dark
-                        ? "0 0 45px rgba(109,40,217,0.6), 0 8px 25px rgba(0,0,0,0.5)"
+                        ? "0 0 45px rgba(30,64,175,0.6), 0 8px 25px rgba(0,0,0,0.5)"
                         : "0 0 35px rgba(13,92,168,0.45), 0 8px 25px rgba(0,0,0,0.2)";
                     }
                   }}

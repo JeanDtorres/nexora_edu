@@ -38,7 +38,7 @@ export const contenidoModulos: Modulo[] = [
     descripcionCorto: "Aprende los fundamentos del diseño de redes, clasificaciones geográficas y las diferentes formas en que los dispositivos se interconectan.",
     duracion: "35 min",
     imagen: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=800&auto=format&fit=crop",
-    colorTheme: "from-violet-500 to-indigo-500",
+    colorTheme: "from-blue-600 to-indigo-600",
     lecciones: [
       {
         id: 1,
@@ -64,7 +64,7 @@ export const contenidoModulos: Modulo[] = [
             Una <strong>red de computadoras</strong> es un sistema de dispositivos interconectados (computadoras, servidores, dispositivos móviles, impresoras) que se comunican entre sí para compartir recursos, archivos, servicios y facilitar la transmisión de datos. El objetivo principal es eliminar el aislamiento físico de la información y permitir que el hardware y el software colaboren eficientemente en tiempo real.
           </p>
           <div class="my-6 p-4 rounded-xl border border-zinc-800 bg-zinc-900/60 backdrop-blur-sm">
-            <h3 class="text-sm font-semibold text-violet-400 mb-2">💡 Dato Académico</h3>
+            <h3 class="text-sm font-semibold text-blue-400 mb-2">💡 Dato Académico</h3>
             <p class="text-zinc-400 text-sm leading-relaxed m-0">
               La clasificación más común de las redes se basa en su alcance geográfico. Esto define no solo la distancia física que cubren, sino también la propiedad de la infraestructura y la tecnología de transmisión utilizada.
             </p>
@@ -365,7 +365,7 @@ export const contenidoModulos: Modulo[] = [
     descripcionCorto: "Descubre el hardware esencial que da vida a las redes: desde switches y routers hasta cableado físico e IPs.",
     duracion: "40 min",
     imagen: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=800&auto=format&fit=crop",
-    colorTheme: "from-fuchsia-500 to-pink-500",
+    colorTheme: "from-sky-500 to-cyan-500",
     lecciones: [
       {
         id: 1,
@@ -399,7 +399,7 @@ export const contenidoModulos: Modulo[] = [
             A diferencia de un switch, el router opera en la capa de red y se encarga de <strong>interconectar diferentes redes lógicas</strong> (por ejemplo, tu red local con Internet). Lee las direcciones IP de los paquetes de datos y consulta su <strong>tabla de enrutamiento</strong> para determinar a través de qué interfaz física y hacia qué próximo salto debe viajar el paquete para acercarse a su destino.
           </p>
           <div class="my-6 p-4 rounded-xl border border-zinc-800 bg-zinc-900/60 backdrop-blur-sm">
-            <h3 class="text-sm font-semibold text-fuchsia-400 mb-2">⚖️ Resumen Técnico</h3>
+            <h3 class="text-sm font-semibold text-sky-400 mb-2">⚖️ Resumen Técnico</h3>
             <p class="text-zinc-400 text-sm leading-relaxed m-0">
               Un switch opera con <strong>tramas (frames)</strong> y direcciones MAC físicas; un router opera con <strong>paquetes (packets)</strong> y direcciones IP lógicas. El switch crea la red local, el router conecta redes locales al exterior.
             </p>

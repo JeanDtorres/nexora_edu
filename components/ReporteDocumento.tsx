@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 20,
     borderBottomWidth: 2,
-    borderBottomColor: "#6d28d9",
+    borderBottomColor: "#1e40af",
     paddingBottom: 10,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    color: "#6d28d9",
+    color: "#1e40af",
   },
   subtitle: {
     fontSize: 8,

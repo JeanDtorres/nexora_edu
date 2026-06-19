@@ -83,7 +83,7 @@ export default function AdminUsuariosTable({ usuarios: init, adminId }: Props) {
                   <div className="flex items-center gap-3">
                     <div
                       className="h-8 w-8 shrink-0 flex items-center justify-center rounded-full text-xs font-black text-white"
-                      style={{ background: "linear-gradient(135deg, #6d28d9, #c026d3)", boxShadow: "0 0 10px rgba(109,40,217,0.4)" }}
+                      style={{ background: "linear-gradient(135deg, #1e40af, #0284c7)", boxShadow: "0 0 10px rgba(30,64,175,0.4)" }}
                     >
                       {u.nombre.charAt(0).toUpperCase()}
                     </div>
@@ -91,7 +91,7 @@ export default function AdminUsuariosTable({ usuarios: init, adminId }: Props) {
                     {u.id === adminId && (
                       <span
                         className="text-[9px] font-black uppercase tracking-wider rounded px-1.5 py-0.5"
-                        style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(139,92,246,0.3)", color: "#a78bfa" }}
+                        style={{ background: "rgba(37,99,235,0.15)", border: "1px solid rgba(37,99,235,0.3)", color: "#60a5fa" }}
                       >
                         Tú
                       </span>
@@ -170,16 +170,16 @@ export default function AdminUsuariosTable({ usuarios: init, adminId }: Props) {
             <div className="flex items-center gap-3 min-w-0">
               <div
                 className="h-9 w-9 shrink-0 flex items-center justify-center rounded-full text-xs font-black text-white"
-                style={{ background: "linear-gradient(135deg, #6d28d9, #c026d3)" }}
+                style={{ background: "linear-gradient(135deg, #1e40af, #0284c7)" }}
               >
                 {u.nombre.charAt(0).toUpperCase()}
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-semibold text-white truncate">{u.nombre}</p>
-                  {u.id === adminId && (
-                    <span className="text-[9px] font-black uppercase rounded px-1 shrink-0" style={{ background: "rgba(139,92,246,0.15)", color: "#a78bfa" }}>Tú</span>
-                  )}
+                    {u.id === adminId && (
+                      <span className="text-[9px] font-black uppercase rounded px-1 shrink-0" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa" }}>Tú</span>
+                    )}
                 </div>
                 <p className="text-xs truncate mt-0.5" style={{ color: "#6b7280" }}>{u.email}</p>
                 <div className="mt-1">

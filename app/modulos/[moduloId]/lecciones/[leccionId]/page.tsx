@@ -16,8 +16,8 @@ interface PageProps {
 }
 
 const MODULE_COLORS = [
-  { accent: "#8b5cf6", glow: "rgba(139,92,246,0.2)", border: "rgba(139,92,246,0.25)", bg: "rgba(109,40,217,0.08)" },
-  { accent: "#e879f9", glow: "rgba(217,70,239,0.2)", border: "rgba(217,70,239,0.25)", bg: "rgba(192,38,211,0.08)" },
+  { accent: "#2563eb", glow: "rgba(37,99,235,0.2)", border: "rgba(37,99,235,0.25)", bg: "rgba(30,64,175,0.08)" },
+  { accent: "#0ea5e9", glow: "rgba(14,165,233,0.2)", border: "rgba(14,165,233,0.25)", bg: "rgba(2,132,199,0.08)" },
   { accent: "#38bdf8", glow: "rgba(56,189,248,0.2)", border: "rgba(6,182,212,0.25)",  bg: "rgba(6,182,212,0.08)"  },
 ];
 
@@ -86,7 +86,7 @@ export default async function LeccionDetailPage({ params }: PageProps) {
             {modulo.titulo}
           </Link>
           <span>/</span>
-          <span className="text-violet-400 font-medium truncate max-w-[150px] sm:max-w-none">
+          <span className="text-blue-400 font-medium truncate max-w-[150px] sm:max-w-none">
             Lección {leccion.id}: {leccion.titulo}
           </span>
         </nav>
@@ -101,14 +101,14 @@ export default async function LeccionDetailPage({ params }: PageProps) {
 
       {/* Main Banner */}
       <div className="relative overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/20 mb-10 shadow-2xl">
-        <div className="absolute top-0 right-0 -z-10 h-72 w-72 rounded-full bg-violet-650/10 blur-[120px] pointer-events-none"></div>
+        <div className="absolute top-0 right-0 -z-10 h-72 w-72 rounded-full bg-blue-700/10 blur-[120px] pointer-events-none"></div>
         
         <div className="flex flex-col lg:flex-row">
           {/* Text Details */}
           <div className="flex-1 p-8 sm:p-10 flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <span className="rounded-md bg-violet-500/10 px-2.5 py-1 text-xs font-bold text-violet-400 border border-violet-500/25">
+                <span className="rounded-md bg-blue-500/10 px-2.5 py-1 text-xs font-bold text-blue-400 border border-blue-500/25">
                   MÓDULO {modulo.id} · LECCIÓN {leccion.id}
                 </span>
                 <span className="inline-flex items-center gap-1 rounded-md bg-zinc-950/40 px-2.5 py-1 text-xs font-medium text-zinc-400 border border-zinc-800">
@@ -149,25 +149,25 @@ export default async function LeccionDetailPage({ params }: PageProps) {
               prose-zinc max-w-none
               [&_p]:text-zinc-300 [&_p]:leading-relaxed [&_p]:mb-6 [&_p]:text-base sm:[&_p]:text-[17px]
               [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:tracking-tight [&_h2]:border-b [&_h2]:border-zinc-850 [&_h2]:pb-2
-              [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-violet-400 [&_h3]:mt-6 [&_h3]:mb-3
+              [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-blue-400 [&_h3]:mt-6 [&_h3]:mb-3
               [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-3 [&_ul]:mb-6
               [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-3 [&_ol]:mb-6
               [&_li]:text-zinc-300 [&_li]:leading-relaxed
-              [&_strong]:text-violet-300 [&_strong]:font-semibold
-              [&_code]:bg-zinc-900 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-fuchsia-400 [&_code]:font-mono [&_code]:text-sm [&_code]:border [&_code]:border-zinc-800/60
+              [&_strong]:text-blue-300 [&_strong]:font-semibold
+              [&_code]:bg-zinc-900 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-sky-400 [&_code]:font-mono [&_code]:text-sm [&_code]:border [&_code]:border-zinc-800/60
             "
             dangerouslySetInnerHTML={{ __html: leccion.contenidoHtml }}
           />
 
           {/* CTA Box at the bottom of the content */}
-          <div className="mt-12 p-6 sm:p-8 rounded-xl border border-violet-500/20 bg-gradient-to-br from-violet-950/20 to-fuchsia-950/15 backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="mt-12 p-6 sm:p-8 rounded-xl border border-blue-500/20 bg-gradient-to-br from-blue-950/20 to-sky-950/15 backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="text-center sm:text-left">
               <h3 className="text-lg font-bold text-white mb-1">¿Comprendiste el material de estudio?</h3>
               <p className="text-zinc-400 text-sm">Responde las 5 preguntas del test para aprobar esta lección (necesitas $\ge 70\%$).</p>
             </div>
             <Link
               href={`/evaluacion/${modulo.id}/${leccion.id}`}
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 px-6 py-3.5 text-sm font-bold text-white hover:from-violet-600 hover:to-fuchsia-600 shadow-xl shadow-violet-500/20 active:scale-95 transition-all duration-200 hover:scale-[1.02] cursor-pointer"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 via-sky-500 to-cyan-500 px-6 py-3.5 text-sm font-bold text-white hover:from-blue-600 hover:to-sky-600 shadow-xl shadow-blue-500/20 active:scale-95 transition-all duration-200 hover:scale-[1.02] cursor-pointer"
             >
               Realizar Evaluación
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
@@ -182,7 +182,7 @@ export default async function LeccionDetailPage({ params }: PageProps) {
           {/* Key Concepts Widget */}
           <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 p-6 backdrop-blur-md shadow-lg">
             <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-6 flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-violet-400">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-blue-400">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 21l8.982-8.979M19 12l-1.812-9.041L8.982 12H19Z" />
               </svg>
               Conceptos Clave
@@ -190,8 +190,8 @@ export default async function LeccionDetailPage({ params }: PageProps) {
 
             <div className="space-y-6">
               {leccion.conceptosClave.map((concepto, idx) => (
-                <div key={idx} className="group/concept relative pl-4 border-l-2 border-zinc-800 hover:border-violet-500 transition-colors duration-250">
-                  <h4 className="text-sm font-bold text-zinc-100 group-hover/concept:text-violet-400 transition-colors duration-200 mb-1">
+                <div key={idx} className="group/concept relative pl-4 border-l-2 border-zinc-800 hover:border-blue-500 transition-colors duration-250">
+                  <h4 className="text-sm font-bold text-zinc-100 group-hover/concept:text-blue-400 transition-colors duration-200 mb-1">
                     {concepto.titulo}
                   </h4>
                   <p className="text-xs text-zinc-400 leading-relaxed">
@@ -223,7 +223,7 @@ export default async function LeccionDetailPage({ params }: PageProps) {
 
             <div className="h-2 w-full rounded-full bg-zinc-800 overflow-hidden mb-6">
               <div
-                className="h-full bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-full transition-all duration-500"
+                className="h-full bg-gradient-to-r from-blue-500 to-sky-500 rounded-full transition-all duration-500"
                 style={{ width: leccProg?.aprobado ? "100%" : leccProg?.leido ? "50%" : "0%" }}
               />
             </div>

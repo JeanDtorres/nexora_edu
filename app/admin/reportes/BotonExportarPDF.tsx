@@ -34,9 +34,9 @@ export default function BotonExportarPDF({ interacciones, resultados }: Props) {
     return (
       <button
         disabled
-        className="inline-flex items-center gap-2 rounded-xl bg-violet-950/20 px-5 py-2.5 text-sm font-bold text-violet-400 border border-violet-500/20 cursor-not-allowed"
+        className="inline-flex items-center gap-2 rounded-xl bg-blue-950/20 px-5 py-2.5 text-sm font-bold text-blue-400 border border-blue-500/20 cursor-not-allowed"
       >
-        <span className="h-4 w-4 rounded-full border-2 border-t-transparent animate-spin border-violet-400" />
+        <span className="h-4 w-4 rounded-full border-2 border-t-transparent animate-spin border-blue-400" />
         Preparando PDF…
       </button>
     );
@@ -46,7 +46,7 @@ export default function BotonExportarPDF({ interacciones, resultados }: Props) {
     <PDFDownloadLink
       document={<ReporteDocumento interacciones={interacciones} resultados={resultados} />}
       fileName={`Reporte_Nexora_${new Date().toISOString().slice(0, 10)}.pdf`}
-      className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-violet-500 to-indigo-500 hover:from-violet-600 hover:to-indigo-600 px-5 py-2.5 text-sm font-bold text-white shadow-xl shadow-violet-500/10 hover:scale-[1.02] active:scale-95 transition-all duration-200 cursor-pointer"
+      className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 px-5 py-2.5 text-sm font-bold text-white shadow-xl shadow-blue-500/10 hover:scale-[1.02] active:scale-95 transition-all duration-200 cursor-pointer"
     >
       {({ loading }) => (
         <>

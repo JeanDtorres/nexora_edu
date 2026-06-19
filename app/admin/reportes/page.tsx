@@ -93,13 +93,13 @@ export default async function AdminReportesPage() {
       {/* Cabecera */}
       <div className="relative overflow-hidden rounded-3xl p-8 sm:p-10 mb-8 anim-fade-up"
         style={{
-          background: "linear-gradient(135deg, rgba(109,40,217,0.12) 0%, rgba(10,10,22,0.9) 60%)",
-          border: "1px solid rgba(139,92,246,0.2)",
+          background: "linear-gradient(135deg, rgba(30,64,175,0.12) 0%, rgba(10,10,22,0.9) 60%)",
+          border: "1px solid rgba(37,99,235,0.2)",
           backdropFilter: "blur(20px)",
-          boxShadow: "0 30px 60px rgba(0,0,0,0.4), 0 0 60px rgba(109,40,217,0.04)",
+          boxShadow: "0 30px 60px rgba(0,0,0,0.4), 0 0 60px rgba(30,64,175,0.04)",
         }}>
         <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%)", filter: "blur(40px)" }} />
+          style={{ background: "radial-gradient(circle, rgba(37,99,235,0.1) 0%, transparent 70%)", filter: "blur(40px)" }} />
         
         <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
@@ -108,7 +108,7 @@ export default async function AdminReportesPage() {
               <span>/</span>
               <Link href="/admin/config" className="hover:text-zinc-300 transition-colors">Administración</Link>
               <span>/</span>
-              <span style={{ color: "#a78bfa" }}>Reportes</span>
+              <span style={{ color: "#60a5fa" }}>Reportes</span>
             </nav>
 
             <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white flex items-center gap-3">
@@ -173,7 +173,7 @@ export default async function AdminReportesPage() {
                       <td className="px-5 py-3.5 font-semibold text-white">{item.usuario}</td>
                       <td className="px-5 py-3.5 text-zinc-400 text-xs">{item.fecha}</td>
                       <td className="px-5 py-3.5">
-                        <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold border ${item.tipo === "Lectura" ? "bg-sky-500/5 border-sky-500/10 text-sky-400" : "bg-violet-500/5 border-violet-500/10 text-violet-400"}`}>
+                        <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold border ${item.tipo === "Lectura" ? "bg-sky-500/5 border-sky-500/10 text-sky-400" : "bg-blue-500/5 border-blue-500/10 text-blue-400"}`}>
                           {item.tipo}
                         </span>
                       </td>

@@ -17,8 +17,8 @@ interface PageProps {
 }
 
 const MODULE_COLORS = [
-  { accent: "#8b5cf6", glow: "rgba(139,92,246,0.2)", border: "rgba(139,92,246,0.25)", bg: "rgba(109,40,217,0.08)" },
-  { accent: "#e879f9", glow: "rgba(217,70,239,0.2)", border: "rgba(217,70,239,0.25)", bg: "rgba(192,38,211,0.08)" },
+  { accent: "#2563eb", glow: "rgba(37,99,235,0.2)", border: "rgba(37,99,235,0.25)", bg: "rgba(30,64,175,0.08)" },
+  { accent: "#0ea5e9", glow: "rgba(14,165,233,0.2)", border: "rgba(14,165,233,0.25)", bg: "rgba(2,132,199,0.08)" },
   { accent: "#38bdf8", glow: "rgba(56,189,248,0.2)", border: "rgba(6,182,212,0.25)",  bg: "rgba(6,182,212,0.08)"  },
 ];
 
@@ -92,7 +92,7 @@ export default async function ModuloDetailPage({ params, searchParams }: PagePro
             Módulos
           </Link>
           <span>/</span>
-          <span className="text-violet-400 font-medium truncate max-w-[200px] sm:max-w-none">
+          <span className="text-blue-400 font-medium truncate max-w-[200px] sm:max-w-none">
             {modulo.titulo}
           </span>
         </nav>
@@ -107,14 +107,14 @@ export default async function ModuloDetailPage({ params, searchParams }: PagePro
 
       {/* Main Banner */}
       <div className="relative overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/20 mb-10 shadow-2xl">
-        <div className="absolute top-0 right-0 -z-10 h-72 w-72 rounded-full bg-violet-650/10 blur-[120px] pointer-events-none"></div>
+        <div className="absolute top-0 right-0 -z-10 h-72 w-72 rounded-full bg-blue-700/10 blur-[120px] pointer-events-none"></div>
         
         <div className="flex flex-col lg:flex-row">
           {/* Text Details */}
           <div className="flex-1 p-8 sm:p-10 flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <span className="rounded-md bg-violet-500/10 px-2.5 py-1 text-xs font-bold text-violet-400 border border-violet-500/25">
+                <span className="rounded-md bg-blue-500/10 px-2.5 py-1 text-xs font-bold text-blue-400 border border-blue-500/25">
                   MÓDULO {modulo.id}
                 </span>
                 <span className="inline-flex items-center gap-1 rounded-md bg-zinc-950/40 px-2.5 py-1 text-xs font-medium text-zinc-400 border border-zinc-800">
@@ -167,9 +167,9 @@ export default async function ModuloDetailPage({ params, searchParams }: PagePro
                     <div
                       className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl font-bold font-mono text-sm"
                       style={{
-                        background: isLessonLocked ? "rgba(255,255,255,0.03)" : prog?.aprobado ? "rgba(16,185,129,0.1)" : "rgba(139,92,246,0.1)",
-                        border: `1px solid ${isLessonLocked ? "rgba(255,255,255,0.05)" : prog?.aprobado ? "rgba(16,185,129,0.25)" : "rgba(139,92,246,0.25)"}`,
-                        color: isLessonLocked ? "#4b5563" : prog?.aprobado ? "#34d399" : "#a78bfa"
+                        background: isLessonLocked ? "rgba(255,255,255,0.03)" : prog?.aprobado ? "rgba(16,185,129,0.1)" : "rgba(37,99,235,0.1)",
+                        border: `1px solid ${isLessonLocked ? "rgba(255,255,255,0.05)" : prog?.aprobado ? "rgba(16,185,129,0.25)" : "rgba(37,99,235,0.25)"}`,
+                        color: isLessonLocked ? "#4b5563" : prog?.aprobado ? "#34d399" : "#60a5fa"
                       }}
                     >
                       {isLessonLocked ? "🔒" : prog?.aprobado ? "✓" : `1.${leccion.id}`}
@@ -212,7 +212,7 @@ export default async function ModuloDetailPage({ params, searchParams }: PagePro
                         </Link>
                         <Link
                           href={`/evaluacion/${modulo.id}/${leccion.id}`}
-                          className="flex-1 text-center text-xs font-bold px-4 py-2.5 rounded-xl transition-all duration-200 border border-violet-500/20 bg-violet-500/10 hover:bg-violet-500/20 text-violet-400"
+                          className="flex-1 text-center text-xs font-bold px-4 py-2.5 rounded-xl transition-all duration-200 border border-blue-500/20 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400"
                         >
                           {prog?.aprobado ? "Evaluar de nuevo" : "Dar Evaluación"}
                         </Link>
@@ -231,11 +231,11 @@ export default async function ModuloDetailPage({ params, searchParams }: PagePro
           <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 p-6 backdrop-blur-md shadow-lg text-center">
             <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-3">Progreso de la Unidad</h4>
             <div className="flex items-center justify-center gap-1 text-sm text-zinc-300 font-medium mb-4">
-              <span className="text-violet-400 font-bold">{progressPercent}%</span> completado
+              <span className="text-blue-400 font-bold">{progressPercent}%</span> completado
             </div>
             
             <div className="h-2 w-full rounded-full bg-zinc-800 overflow-hidden mb-6">
-              <div className="h-full bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-full" style={{ width: `${progressPercent}%` }} />
+              <div className="h-full bg-gradient-to-r from-blue-500 to-sky-500 rounded-full" style={{ width: `${progressPercent}%` }} />
             </div>
 
             <div className="space-y-3 text-left border-t border-zinc-850 pt-5 text-xs text-zinc-400">

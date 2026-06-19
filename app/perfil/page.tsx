@@ -50,7 +50,7 @@ export default async function PerfilPage() {
   /* ─── Iniciales ─── */
   const iniciales = usuario.nombre.split(" ").slice(0, 2).map((n) => n[0]).join("").toUpperCase();
 
-  const MODULE_ACCENT = ["#8b5cf6", "#e879f9", "#38bdf8"];
+  const MODULE_ACCENT = ["#2563eb", "#0ea5e9", "#38bdf8"];
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8 flex-1 w-full">
@@ -59,24 +59,24 @@ export default async function PerfilPage() {
       <nav className="flex items-center gap-2 text-xs mb-8 anim-fade-up" style={{ color: "#4b5563" }}>
         <Link href="/dashboard" className="hover:text-zinc-300 transition-colors">Dashboard</Link>
         <span>/</span>
-        <span style={{ color: "#a78bfa" }}>Mi Perfil</span>
+        <span style={{ color: "#60a5fa" }}>Mi Perfil</span>
       </nav>
 
       {/* Hero card */}
       <div className="relative overflow-hidden rounded-3xl p-7 sm:p-10 mb-8 anim-fade-up"
         style={{
-          background: "linear-gradient(135deg, rgba(109,40,217,0.12) 0%, rgba(10,10,22,0.9) 70%)",
-          border: "1px solid rgba(139,92,246,0.2)",
+          background: "linear-gradient(135deg, rgba(30,64,175,0.12) 0%, rgba(10,10,22,0.9) 70%)",
+          border: "1px solid rgba(37,99,235,0.2)",
           backdropFilter: "blur(20px)",
         }}>
         <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(217,70,239,0.12) 0%, transparent 70%)", filter: "blur(40px)" }} />
+          style={{ background: "radial-gradient(circle, rgba(14,165,233,0.12) 0%, transparent 70%)", filter: "blur(40px)" }} />
 
         <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-6">
           {/* Avatar */}
           <div className="relative shrink-0">
             <div className="h-24 w-24 rounded-3xl flex items-center justify-center text-3xl font-black text-white shadow-2xl"
-              style={{ background: "linear-gradient(135deg, #6d28d9, #c026d3)", boxShadow: "0 0 40px rgba(109,40,217,0.4)" }}>
+              style={{ background: "linear-gradient(135deg, #1e40af, #0284c7)", boxShadow: "0 0 40px rgba(30,64,175,0.4)" }}>
               {iniciales}
             </div>
             <div className="absolute -bottom-1 -right-1 h-5 w-5 rounded-full border-2"
@@ -89,9 +89,9 @@ export default async function PerfilPage() {
               <h1 className="text-2xl sm:text-3xl font-black text-white">{usuario.nombre}</h1>
               <span className="rounded-full px-2.5 py-0.5 text-xs font-bold"
                 style={{
-                  background: usuario.rol === "admin" ? "rgba(239,68,68,0.1)" : "rgba(139,92,246,0.1)",
-                  border: `1px solid ${usuario.rol === "admin" ? "rgba(239,68,68,0.25)" : "rgba(139,92,246,0.25)"}`,
-                  color: usuario.rol === "admin" ? "#f87171" : "#a78bfa",
+                  background: usuario.rol === "admin" ? "rgba(239,68,68,0.1)" : "rgba(37,99,235,0.1)",
+                  border: `1px solid ${usuario.rol === "admin" ? "rgba(239,68,68,0.25)" : "rgba(37,99,235,0.25)"}`,
+                  color: usuario.rol === "admin" ? "#f87171" : "#60a5fa",
                 }}>
                 {usuario.rol === "admin" ? "Administrador" : "Estudiante"}
               </span>
@@ -124,7 +124,7 @@ export default async function PerfilPage() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 anim-fade-up delay-150">
         {[
           { label: "Lecciones leídas",   value: `${leccionesLeidas}/${totalLecciones}`,  color: "#38bdf8" },
-          { label: "Lecciones aprobadas", value: `${leccionesAprobadas}/${totalLecciones}`, color: "#a78bfa" },
+          { label: "Lecciones aprobadas", value: `${leccionesAprobadas}/${totalLecciones}`, color: "#60a5fa" },
           { label: "Intentos evaluados", value: totalEvals,                                     color: "#fbbf24" },
           { label: "Lecturas registradas",value: totalLecturas,                                  color: "#34d399" },
         ].map(({ label, value, color }) => (
@@ -141,7 +141,7 @@ export default async function PerfilPage() {
         style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}>
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#6b7280" }}>Progreso de Aprobación del Curso</span>
-          <span className="text-xs font-bold" style={{ color: "#a78bfa" }}>
+          <span className="text-xs font-bold" style={{ color: "#60a5fa" }}>
             {Math.round((leccionesAprobadas / totalLecciones) * 100)}%
           </span>
         </div>
@@ -149,7 +149,7 @@ export default async function PerfilPage() {
           <div className="h-full rounded-full progress-bar-fill"
             style={{
               width: `${Math.round((leccionesAprobadas / totalLecciones) * 100)}%`,
-              background: "linear-gradient(90deg, #6d28d9, #c026d3, #ec4899)",
+              background: "linear-gradient(90deg, #1e40af, #0284c7, #06b6d4)",
               "--target-width": `${Math.round((leccionesAprobadas / totalLecciones) * 100)}%`,
             } as React.CSSProperties} />
         </div>
@@ -192,7 +192,7 @@ export default async function PerfilPage() {
                     </span>
                   ) : (
                     <span className="rounded-full px-2 py-0.5 text-[10px] font-bold backdrop-blur-sm"
-                      style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)", color: "#e879f9" }}>
+                      style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)", color: "#38bdf8" }}>
                       En curso
                     </span>
                   )}

@@ -146,14 +146,14 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
           <button key={t.id} onClick={() => setTab(t.id)}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer"
             style={{
-              background: tab === t.id ? "rgba(139,92,246,0.15)" : "transparent",
-              color: tab === t.id ? "#c4b5fd" : "#6b7280",
-              border: tab === t.id ? "1px solid rgba(139,92,246,0.3)" : "1px solid transparent",
+              background: tab === t.id ? "rgba(37,99,235,0.15)" : "transparent",
+              color: tab === t.id ? "#93c5fd" : "#6b7280",
+              border: tab === t.id ? "1px solid rgba(37,99,235,0.3)" : "1px solid transparent",
             }}
           >
             <span>{t.icon}</span>{t.label}
-            {t.id === "usuarios"   && <span className="rounded-full px-1.5 py-0.5 text-[10px] font-bold" style={{ background: "rgba(139,92,246,0.15)", color: "#a78bfa" }}>{usuarios.length}</span>}
-            {t.id === "resultados" && <span className="rounded-full px-1.5 py-0.5 text-[10px] font-bold" style={{ background: "rgba(217,70,239,0.15)", color: "#e879f9" }}>{resultados.length}</span>}
+            {t.id === "usuarios"   && <span className="rounded-full px-1.5 py-0.5 text-[10px] font-bold" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa" }}>{usuarios.length}</span>}
+            {t.id === "resultados" && <span className="rounded-full px-1.5 py-0.5 text-[10px] font-bold" style={{ background: "rgba(14,165,233,0.15)", color: "#38bdf8" }}>{resultados.length}</span>}
           </button>
         ))}
       </div>
@@ -163,7 +163,7 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
         <div className="space-y-8 anim-fade-up">
           {/* KPI cards */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-            <StatCard label="Usuarios" value={stats.totalUsuarios} color="#a78bfa" />
+            <StatCard label="Usuarios" value={stats.totalUsuarios} color="#60a5fa" />
             <StatCard label="Evaluaciones" value={stats.totalEvaluaciones} color="#34d399" />
             <StatCard label="Lecturas" value={stats.totalLecturas} color="#38bdf8" />
             <StatCard label="Promedio Global" value={`${stats.promedioGlobal}%`} color={scoreColor(stats.promedioGlobal)} />
@@ -279,13 +279,13 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
                           <div className="h-8 w-8 shrink-0 flex items-center justify-center rounded-full text-xs font-black text-white"
-                            style={{ background: "linear-gradient(135deg, #6d28d9, #c026d3)", boxShadow: "0 0 10px rgba(109,40,217,0.35)" }}>
+                            style={{ background: "linear-gradient(135deg, #1e40af, #0284c7)", boxShadow: "0 0 10px rgba(30,64,175,0.35)" }}>
                             {u.nombre.charAt(0).toUpperCase()}
                           </div>
                           <span className="font-semibold text-white">{u.nombre}</span>
                           {u.id === adminId && (
                             <span className="text-[9px] font-black uppercase rounded px-1.5 py-0.5"
-                              style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(139,92,246,0.3)", color: "#a78bfa" }}>Tú</span>
+                              style={{ background: "rgba(37,99,235,0.15)", border: "1px solid rgba(37,99,235,0.3)", color: "#60a5fa" }}>Tú</span>
                           )}
                         </div>
                       </td>
@@ -327,13 +327,13 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
                 <div key={u.id} className="px-4 py-4 anim-fade-up" style={{ animationDelay: `${idx * 40}ms` }}>
                   <div className="flex items-center gap-3 mb-3">
                     <div className="h-9 w-9 shrink-0 flex items-center justify-center rounded-full text-xs font-black text-white"
-                      style={{ background: "linear-gradient(135deg,#6d28d9,#c026d3)" }}>
+                      style={{ background: "linear-gradient(135deg,#1e40af,#0284c7)" }}>
                       {u.nombre.charAt(0).toUpperCase()}
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
                         <p className="text-sm font-semibold text-white truncate">{u.nombre}</p>
-                        {u.id === adminId && <span className="text-[9px] font-black rounded px-1" style={{ background: "rgba(139,92,246,0.15)", color: "#a78bfa" }}>Tú</span>}
+                        {u.id === adminId && <span className="text-[9px] font-black rounded px-1" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa" }}>Tú</span>}
                       </div>
                       <p className="text-xs truncate" style={{ color: "#6b7280" }}>{u.email}</p>
                     </div>
@@ -434,7 +434,7 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
       {tab === "modulos" && (
         <div className="anim-fade-up">
           {stats.modulosStats.length === 0 ? (
-            <div className="rounded-2xl p-12 text-center" style={{ border: "1px dashed rgba(139,92,246,0.2)" }}>
+            <div className="rounded-2xl p-12 text-center" style={{ border: "1px dashed rgba(37,99,235,0.2)" }}>
               <p className="text-4xl mb-3">📚</p>
               <p className="font-bold text-white mb-1">Sin evaluaciones aún</p>
               <p className="text-sm" style={{ color: "#6b7280" }}>Las estadísticas aparecerán cuando los estudiantes completen evaluaciones.</p>
@@ -442,7 +442,7 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {stats.modulosStats.map((m, idx) => {
-                const color = [["#8b5cf6","rgba(139,92,246,0.15)","rgba(139,92,246,0.25)"],["#e879f9","rgba(217,70,239,0.12)","rgba(217,70,239,0.25)"],["#38bdf8","rgba(56,189,248,0.12)","rgba(56,189,248,0.25)"]][idx % 3];
+                const color = [["#2563eb","rgba(37,99,235,0.15)","rgba(37,99,235,0.25)"],["#0ea5e9","rgba(14,165,233,0.12)","rgba(14,165,233,0.25)"],["#38bdf8","rgba(56,189,248,0.12)","rgba(56,189,248,0.25)"]][idx % 3];
                 return (
                   <div key={m.moduloId} className="rounded-2xl p-6 anim-scale-in"
                     style={{ background: color[1], border: `1px solid ${color[2]}`, animationDelay: `${idx * 80}ms` }}>
@@ -489,7 +489,7 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
       {tab === "nuevo" && (
         <div className="max-w-lg anim-fade-up">
           <div className="rounded-3xl p-7 sm:p-8"
-            style={{ background: "rgba(10,10,22,0.8)", border: "1px solid rgba(139,92,246,0.2)", backdropFilter: "blur(20px)", boxShadow: "0 20px 40px rgba(0,0,0,0.4)" }}>
+            style={{ background: "rgba(10,10,22,0.8)", border: "1px solid rgba(37,99,235,0.2)", backdropFilter: "blur(20px)", boxShadow: "0 20px 40px rgba(0,0,0,0.4)" }}>
             <h3 className="text-xl font-bold text-white mb-1">Crear nuevo usuario</h3>
             <p className="text-sm mb-6" style={{ color: "#6b7280" }}>El usuario podrá iniciar sesión de inmediato con las credenciales asignadas.</p>
 
@@ -511,7 +511,7 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
                 { label: "Contraseña",         val: nuevoPass,  set: setNuevoPass,  type: "password", ph: "Mínimo 6 caracteres" },
               ].map(({ label, val, set, type, ph }) => (
                 <div key={label}>
-                  <label className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#7c3aed" }}>{label}</label>
+                  <label className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#2563eb" }}>{label}</label>
                   <input type={type} value={val} onChange={(e) => set(e.target.value)} placeholder={ph} required
                     className="input-glow w-full rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-600"
                     style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", outline: "none" }} />
@@ -520,15 +520,15 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
 
               {/* Rol */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#7c3aed" }}>Rol</label>
+                <label className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#2563eb" }}>Rol</label>
                 <div className="flex gap-3">
                   {(["normal","admin"] as const).map((r) => (
                     <button key={r} type="button" onClick={() => setNuevoRol(r)}
                       className="flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all duration-200 cursor-pointer"
                       style={{
-                        background: nuevoRol === r ? (r === "admin" ? "rgba(239,68,68,0.12)" : "rgba(139,92,246,0.12)") : "rgba(255,255,255,0.03)",
-                        border: `1px solid ${nuevoRol === r ? (r === "admin" ? "rgba(239,68,68,0.35)" : "rgba(139,92,246,0.35)") : "rgba(255,255,255,0.07)"}`,
-                        color: nuevoRol === r ? (r === "admin" ? "#f87171" : "#a78bfa") : "#6b7280",
+                        background: nuevoRol === r ? (r === "admin" ? "rgba(239,68,68,0.12)" : "rgba(37,99,235,0.12)") : "rgba(255,255,255,0.03)",
+                        border: `1px solid ${nuevoRol === r ? (r === "admin" ? "rgba(239,68,68,0.35)" : "rgba(37,99,235,0.35)") : "rgba(255,255,255,0.07)"}`,
+                        color: nuevoRol === r ? (r === "admin" ? "#f87171" : "#60a5fa") : "#6b7280",
                       }}>
                       {r === "normal" ? "Estudiante" : "Administrador"}
                     </button>
@@ -538,7 +538,7 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
 
               <button type="submit" disabled={creando}
                 className="btn-glow w-full rounded-xl py-3.5 text-sm font-bold text-white mt-2 cursor-pointer disabled:opacity-50"
-                style={{ background: "linear-gradient(135deg,#6d28d9,#9333ea,#c026d3)", backgroundSize: "200% 200%", animation: "gradient-x 4s ease infinite", boxShadow: "0 0 24px rgba(109,40,217,0.35)" }}>
+                style={{ background: "linear-gradient(135deg,#1e40af,#2563eb,#0284c7)", backgroundSize: "200% 200%", animation: "gradient-x 4s ease infinite", boxShadow: "0 0 24px rgba(30,64,175,0.35)" }}>
                 {creando ? "Creando usuario…" : "Crear usuario"}
               </button>
             </form>
