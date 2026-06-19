@@ -12,6 +12,7 @@ interface UsuarioAdmin {
 interface ResultadoAdmin {
   id: number; usuarioId: number; usuarioNombre: string; usuarioEmail: string;
   moduloId: number | null; moduloTitulo: string;
+  leccionId: number | null; leccionTitulo: string | null;
   puntaje: number; correctas: number; total: number; fecha: Date;
 }
 interface ModuloStat {
@@ -219,7 +220,9 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
                     <div className="min-w-0">
                       <p className="text-sm font-semibold text-white truncate">{a.usuario}</p>
                       <p className="text-xs truncate" style={{ color: "#6b7280" }}>
-                        {a.tipo === "evaluacion" ? `Evaluó: ${a.metadatos?.moduloTitulo ?? "módulo"}` : `Leyó: ${a.metadatos?.moduloTitulo ?? "módulo"}`}
+                        {a.tipo === "evaluacion"
+                          ? `Evaluó: ${a.metadatos?.moduloTitulo ?? "módulo"}${a.metadatos?.leccionId ? ` · Lección ${a.metadatos.leccionId}` : ""}`
+                          : `Leyó: ${a.metadatos?.moduloTitulo ?? "módulo"}${a.metadatos?.leccionId ? ` · Lección ${a.metadatos.leccionId}` : ""}`}
                       </p>
                     </div>
                   </div>
@@ -391,7 +394,14 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
                           <p className="text-xs" style={{ color: "#6b7280" }}>{r.usuarioEmail}</p>
                         </td>
                         <td className="px-5 py-3.5">
-                          <p className="text-white">{r.moduloTitulo}</p>
+                          <p className="text-white">
+                            {r.moduloTitulo}
+                            {r.leccionId && (
+                              <span className="text-zinc-500 text-xs block">
+                                Lección {r.leccionId}: {r.leccionTitulo}
+                              </span>
+                            )}
+                          </p>
                         </td>
                         <td className="px-5 py-3.5">
                           <span className="rounded-full px-2.5 py-0.5 text-xs font-black"

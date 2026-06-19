@@ -7,14 +7,21 @@ import prisma from "@/lib/prisma";
 const JWT_SECRET = process.env.JWT_SECRET || "nexora_edu_super_secret_jwt_key_2026";
 
 interface ResultadoItem {
-  id: number; moduloId: number | null; moduloTitulo: string;
-  fechaCompletado: Date; puntaje: number; correctas: number; total: number;
+  id: number;
+  moduloId: number | null;
+  moduloTitulo: string;
+  leccionId: number | null;
+  leccionTitulo: string | null;
+  fechaCompletado: Date;
+  puntaje: number;
+  correctas: number;
+  total: number;
 }
 
 function ScoreBadge({ puntaje }: { puntaje: number }) {
-  const color = puntaje >= 80 ? "#34d399" : puntaje >= 60 ? "#fbbf24" : "#f87171";
-  const bg    = puntaje >= 80 ? "rgba(16,185,129,0.1)"  : puntaje >= 60 ? "rgba(245,158,11,0.1)"  : "rgba(239,68,68,0.1)";
-  const bdr   = puntaje >= 80 ? "rgba(16,185,129,0.3)"  : puntaje >= 60 ? "rgba(245,158,11,0.3)"  : "rgba(239,68,68,0.3)";
+  const color = puntaje >= 70 ? "#34d399" : "#f87171";
+  const bg    = puntaje >= 70 ? "rgba(16,185,129,0.1)"  : "rgba(239,68,68,0.1)";
+  const bdr   = puntaje >= 70 ? "rgba(16,185,129,0.3)"  : "rgba(239,68,68,0.3)";
   return (
     <span
       className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-black"
@@ -26,7 +33,7 @@ function ScoreBadge({ puntaje }: { puntaje: number }) {
 }
 
 function ScoreBar({ puntaje }: { puntaje: number }) {
-  const color = puntaje >= 80 ? "#34d399" : puntaje >= 60 ? "#fbbf24" : "#f87171";
+  const color = puntaje >= 70 ? "#34d399" : "#f87171";
   return (
     <div className="h-1.5 rounded-full overflow-hidden w-20" style={{ background: "rgba(255,255,255,0.06)" }}>
       <div
@@ -55,9 +62,15 @@ export default async function ResultadosPage() {
     const meta = a.metadatos ? JSON.parse(a.metadatos) : {};
     const contenido = a.resultados[0]?.contenido ? JSON.parse(a.resultados[0].contenido) : null;
     return {
-      id: a.id, moduloId: meta.moduloId ?? null, moduloTitulo: meta.moduloTitulo ?? "Módulo desconocido",
+      id: a.id,
+      moduloId: meta.moduloId ?? null,
+      moduloTitulo: meta.moduloTitulo ?? "Módulo desconocido",
+      leccionId: meta.leccionId ?? null,
+      leccionTitulo: meta.leccionTitulo ?? null,
       fechaCompletado: a.fecha_fin ?? a.fecha_inicio,
-      puntaje: contenido?.puntaje ?? 0, correctas: contenido?.correctas ?? 0, total: contenido?.total ?? 0,
+      puntaje: contenido?.puntaje ?? 0,
+      correctas: contenido?.correctas ?? 0,
+      total: contenido?.total ?? 0,
     };
   });
 
@@ -65,7 +78,7 @@ export default async function ResultadosPage() {
     ? Math.round(resultados.reduce((s, r) => s + r.puntaje, 0) / resultados.length)
     : null;
   const perfectos = resultados.filter((r) => r.puntaje === 100).length;
-  const aprobados = resultados.filter((r) => r.puntaje >= 60).length;
+  const aprobados = resultados.filter((r) => r.puntaje >= 70).length;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8 flex-1 w-full">
@@ -94,7 +107,7 @@ export default async function ResultadosPage() {
           <span className="anim-shimmer-text">Resultados</span>
         </h1>
         <p className="relative text-sm max-w-xl" style={{ color: "#6b7280" }}>
-          Historial completo de tus evaluaciones en la plataforma.
+          Historial completo de tus evaluaciones de lección en la plataforma.
         </p>
 
         {/* Stats row */}
@@ -102,7 +115,7 @@ export default async function ResultadosPage() {
           <div className="relative flex flex-wrap gap-4 mt-6">
             {[
               { label: "Evaluaciones",  value: resultados.length, color: "#a78bfa" },
-              { label: "Promedio",      value: `${promedio}%`,    color: promedio! >= 80 ? "#34d399" : promedio! >= 60 ? "#fbbf24" : "#f87171" },
+              { label: "Promedio",      value: `${promedio}%`,    color: promedio! >= 70 ? "#34d399" : "#f87171" },
               { label: "Aprobadas",     value: aprobados,          color: "#34d399" },
               { label: "Perfectas",     value: perfectos,          color: "#fbbf24" },
             ].map(({ label, value, color }) => (
@@ -169,7 +182,14 @@ export default async function ResultadosPage() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-bold text-white text-base">{r.moduloTitulo}</p>
+                  <p className="font-bold text-white text-base">
+                    {r.moduloTitulo} 
+                    {r.leccionId && (
+                      <span className="text-zinc-400 font-medium text-sm block sm:inline sm:ml-2">
+                        · Lección {r.leccionId}: {r.leccionTitulo}
+                      </span>
+                    )}
+                  </p>
                   <div className="flex items-center gap-3 mt-1">
                     <p className="text-xs" style={{ color: "#6b7280" }}>
                       {r.correctas}/{r.total} correctas
@@ -180,6 +200,7 @@ export default async function ResultadosPage() {
                     </p>
                   </div>
                 </div>
+
               </div>
 
               <div className="flex items-center gap-3 shrink-0">
@@ -191,9 +212,9 @@ export default async function ResultadosPage() {
                 >
                   Ver detalle
                 </Link>
-                {r.moduloId && (
+                {r.moduloId && r.leccionId && (
                   <Link
-                    href={`/evaluacion/${r.moduloId}`}
+                    href={`/evaluacion/${r.moduloId}/${r.leccionId}`}
                     className="rounded-xl px-3 py-1.5 text-xs font-semibold transition-all duration-200 hover:scale-[1.03]"
                     style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#6b7280" }}
                   >

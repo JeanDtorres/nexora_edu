@@ -15,15 +15,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Token inválido." }, { status: 401 });
   }
 
-  const { moduloId, moduloTitulo } = await req.json();
-  if (!moduloId) return NextResponse.json({ error: "moduloId requerido." }, { status: 400 });
+  const { moduloId, moduloTitulo, leccionId, leccionTitulo } = await req.json();
+  if (!moduloId || !leccionId) return NextResponse.json({ error: "moduloId y leccionId requeridos." }, { status: 400 });
 
   // Solo crear si no existe una lectura reciente (últimas 24h) para evitar duplicados
   const existente = await prisma.actividad.findFirst({
     where: {
       usuario_id: decoded.id,
       tipo: "lectura",
-      metadatos: { contains: `"moduloId":${moduloId}` },
+      AND: [
+        { metadatos: { contains: `"moduloId":${moduloId}` } },
+        { metadatos: { contains: `"leccionId":${leccionId}` } }
+      ],
       fecha_inicio: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) },
     },
   });
@@ -35,7 +38,12 @@ export async function POST(req: NextRequest) {
         tipo: "lectura",
         estado: "completado",
         fecha_fin: new Date(),
-        metadatos: JSON.stringify({ moduloId, moduloTitulo: moduloTitulo ?? `Módulo ${moduloId}` }),
+        metadatos: JSON.stringify({
+          moduloId,
+          moduloTitulo: moduloTitulo ?? `Módulo ${moduloId}`,
+          leccionId,
+          leccionTitulo: leccionTitulo ?? `Lección ${leccionId}`
+        }),
       },
     });
   }

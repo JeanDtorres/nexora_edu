@@ -5,20 +5,39 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { contenidoModulos } from "@/data/contenidoModulos";
 
-interface PageProps { params: Promise<{ moduloId: string }>; }
+interface PageProps {
+  params: Promise<{
+    moduloId: string;
+    leccionId: string;
+  }>;
+}
 
 interface DetalleRespuesta {
-  preguntaId: number; pregunta: string;
-  seleccionada: number; correcta: number;
-  esCorrecta: boolean; explicacion: string;
+  preguntaId: number;
+  pregunta: string;
+  opciones: string[];
+  respuestaUsuario: number;
+  respuestaCorrecta: number;
+  esCorrecta: boolean;
+  explicacion: string;
 }
-interface ResultadoEval { puntaje: number; correctas: number; total: number; detalles: DetalleRespuesta[]; }
 
-export default function EvaluacionPage({ params }: PageProps) {
-  const { moduloId } = use(params);
+interface ResultadoEval {
+  puntaje: number;
+  correctas: number;
+  total: number;
+  detalles: DetalleRespuesta[];
+}
+
+export default function EvaluacionLeccionPage({ params }: PageProps) {
+  const { moduloId, leccionId } = use(params);
   const router = useRouter();
-  const idNum = parseInt(moduloId, 10);
-  const modulo = isNaN(idNum) ? null : contenidoModulos.find((m) => m.id === idNum);
+  
+  const moduloIdNum = parseInt(moduloId, 10);
+  const leccionIdNum = parseInt(leccionId, 10);
+
+  const modulo = isNaN(moduloIdNum) ? null : contenidoModulos.find((m) => m.id === moduloIdNum);
+  const leccion = modulo ? modulo.lecciones.find((l) => l.id === leccionIdNum) : null;
 
   const [respuestas, setRespuestas] = useState<Record<number, number>>({});
   const [enviando, setEnviando] = useState(false);
@@ -26,16 +45,20 @@ export default function EvaluacionPage({ params }: PageProps) {
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => { setMounted(true); }, []);
   useEffect(() => {
-    if (!modulo) router.push("/modulos");
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modulo]);
+    setMounted(true);
+  }, []);
 
-  if (!modulo) return null;
+  useEffect(() => {
+    if (!modulo || !leccion) {
+      router.push("/modulos");
+    }
+  }, [modulo, leccion, router]);
+
+  if (!modulo || !leccion) return null;
 
   const respondidas = Object.keys(respuestas).length;
-  const total = modulo.preguntas.length;
+  const total = leccion.preguntas.length;
   const todasRespondidas = respondidas === total;
   const progreso = Math.round((respondidas / total) * 100);
 
@@ -46,47 +69,61 @@ export default function EvaluacionPage({ params }: PageProps) {
 
   const handleSubmit = async () => {
     if (!todasRespondidas) return;
-    setEnviando(true); setError(null);
+    setEnviando(true);
+    setError(null);
     try {
       const res = await fetch("/api/evaluacion/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          moduloId: idNum,
-          respuestas: Object.entries(respuestas).map(([id, r]) => ({ preguntaId: Number(id), respuesta: r })),
+          moduloId: moduloIdNum,
+          leccionId: leccionIdNum,
+          respuestas: Object.entries(respuestas).map(([id, r]) => ({
+            preguntaId: Number(id),
+            respuesta: r,
+          })),
         }),
       });
       const data = await res.json();
-      if (res.ok && data.success) setResultado(data.resultado);
-      else setError(data.error || "Error al enviar.");
-    } catch { setError("Error de conexión."); }
-    finally { setEnviando(false); }
+      if (res.ok && data.success) {
+        setResultado(data.resultado);
+      } else {
+        setError(data.error || "Error al enviar la evaluación.");
+      }
+    } catch {
+      setError("Error de conexión con el servidor.");
+    } finally {
+      setEnviando(false);
+    }
   };
 
+  const pasoLeccion = resultado ? resultado.puntaje >= 70 : false;
+
   const scoreColor = resultado
-    ? resultado.puntaje >= 80 ? "#34d399" : resultado.puntaje >= 60 ? "#fbbf24" : "#f87171"
+    ? pasoLeccion ? "#34d399" : "#f87171"
     : "#8b5cf6";
   const scoreBg = resultado
-    ? resultado.puntaje >= 80 ? "rgba(16,185,129,0.08)" : resultado.puntaje >= 60 ? "rgba(245,158,11,0.08)" : "rgba(239,68,68,0.08)"
+    ? pasoLeccion ? "rgba(16,185,129,0.08)" : "rgba(239,68,68,0.08)"
     : "rgba(139,92,246,0.08)";
   const scoreBorder = resultado
-    ? resultado.puntaje >= 80 ? "rgba(16,185,129,0.25)" : resultado.puntaje >= 60 ? "rgba(245,158,11,0.25)" : "rgba(239,68,68,0.25)"
+    ? pasoLeccion ? "rgba(16,185,129,0.25)" : "rgba(239,68,68,0.25)"
     : "rgba(139,92,246,0.25)";
 
   const scoreEmoji = resultado
-    ? resultado.puntaje >= 80 ? "🏆" : resultado.puntaje >= 60 ? "✨" : "📚"
+    ? pasoLeccion ? "🏆" : "📚"
     : "";
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 flex-1 w-full">
-
       {/* Breadcrumb */}
       <nav className={`flex items-center gap-2 text-xs mb-8 transition-all duration-700 ${mounted ? "opacity-100" : "opacity-0"}`} style={{ color: "#4b5563" }}>
         <Link href="/dashboard" className="hover:text-zinc-300 transition-colors">Inicio</Link>
         <span>/</span>
         <Link href="/modulos" className="hover:text-zinc-300 transition-colors">Módulos</Link>
         <span>/</span>
-        <Link href={`/modulos/${modulo.id}`} className="hover:text-zinc-300 transition-colors truncate max-w-[120px]">{modulo.titulo}</Link>
+        <Link href={`/modulos/${modulo.id}`} className="hover:text-zinc-300 transition-colors truncate max-w-[100px]">{modulo.titulo}</Link>
+        <span>/</span>
+        <Link href={`/modulos/${modulo.id}/lecciones/${leccion.id}`} className="hover:text-zinc-300 transition-colors truncate max-w-[100px]">Lección {leccion.id}</Link>
         <span>/</span>
         <span style={{ color: "#8b5cf6" }}>Evaluación</span>
       </nav>
@@ -106,7 +143,7 @@ export default function EvaluacionPage({ params }: PageProps) {
             className="rounded-lg px-2.5 py-1 text-xs font-bold font-mono"
             style={{ background: "rgba(139,92,246,0.12)", border: "1px solid rgba(139,92,246,0.25)", color: "#a78bfa" }}
           >
-            MÓDULO {modulo.id}
+            MOD {modulo.id} · LEC {leccion.id}
           </span>
           <span
             className="rounded-lg px-2.5 py-1 text-xs font-medium"
@@ -116,10 +153,10 @@ export default function EvaluacionPage({ params }: PageProps) {
           </span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-          Evaluación: <span className="anim-shimmer-text">{modulo.titulo}</span>
+          Evaluación: <span className="anim-shimmer-text">{leccion.titulo}</span>
         </h1>
         <p className="mt-2 text-sm" style={{ color: "#6b7280" }}>
-          Selecciona la respuesta correcta para cada pregunta y envía al finalizar.
+          Selecciona la respuesta correcta para cada pregunta. Necesitas un 70% de aciertos para aprobar y desbloquear el siguiente contenido.
         </p>
 
         {/* Progress bar */}
@@ -151,7 +188,7 @@ export default function EvaluacionPage({ params }: PageProps) {
         >
           <div
             className="text-6xl mb-4 anim-bounce-in"
-            style={{ display: "inline-block", animation: "bounce-in 0.7s cubic-bezier(0.36,0.07,0.19,0.97) both" }}
+            style={{ display: "inline-block" }}
           >
             {scoreEmoji}
           </div>
@@ -166,23 +203,23 @@ export default function EvaluacionPage({ params }: PageProps) {
             {resultado.correctas} de {resultado.total} respuestas correctas
           </p>
           <p className="text-base font-bold mt-3" style={{ color: scoreColor }}>
-            {resultado.puntaje >= 80 ? "¡Excelente! Dominas este módulo." : resultado.puntaje >= 60 ? "Bien. Repasa los temas marcados." : "Necesitas repasar el módulo antes de continuar."}
+            {pasoLeccion ? "¡Excelente! Has aprobado esta lección." : "No has alcanzado el 70% requerido para aprobar."}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
             <Link
-              href="/resultados"
+              href={`/modulos/${modulo.id}`}
               className="btn-glow inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200"
-              style={{ background: "rgba(217,70,239,0.1)", border: "1px solid rgba(217,70,239,0.3)", color: "#e879f9" }}
+              style={{ background: "rgba(139,92,246,0.1)", border: "1px solid rgba(139,92,246,0.3)", color: "#a78bfa" }}
             >
-              Ver todos mis resultados
+              Volver al Módulo
             </Link>
             <Link
-              href="/modulos"
+              href="/resultados"
               className="inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 hover:scale-[1.02]"
               style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#9ca3af" }}
             >
-              Otros módulos
+              Ver mis calificaciones
             </Link>
           </div>
         </div>
@@ -190,7 +227,7 @@ export default function EvaluacionPage({ params }: PageProps) {
 
       {/* Questions */}
       <div className="space-y-5">
-        {modulo.preguntas.map((pregunta, pregIdx) => {
+        {leccion.preguntas.map((pregunta, pregIdx) => {
           const seleccionada = respuestas[pregunta.id];
           const detalle = resultado?.detalles.find((d) => d.preguntaId === pregunta.id);
           const delay = pregIdx * 60;

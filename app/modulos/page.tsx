@@ -1,7 +1,10 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { contenidoModulos } from "@/data/contenidoModulos";
+import jwt from "jsonwebtoken";
+import { obtenerProgresoEstudiante } from "@/lib/progreso";
+
+const JWT_SECRET = process.env.JWT_SECRET || "nexora_edu_super_secret_jwt_key_2026";
 
 function ModuleIcon({ id }: { id: number }) {
   if (id === 1) return (
@@ -33,6 +36,16 @@ export default async function ModulosPage() {
   const token = cookieStore.get("token")?.value;
   if (!token) redirect("/login");
 
+  let decoded: any;
+  try {
+    decoded = jwt.verify(token, JWT_SECRET);
+  } catch {
+    redirect("/login");
+  }
+
+  // Obtener progreso real del estudiante para calcular bloqueos
+  const { modulos } = await obtenerProgresoEstudiante(decoded.id);
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 flex-1 w-full">
 
@@ -57,7 +70,7 @@ export default async function ModulosPage() {
               style={{ background: "rgba(139,92,246,0.1)", border: "1px solid rgba(139,92,246,0.2)", color: "#a78bfa" }}
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3">
-                <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
               </svg>
               Contenido Académico
             </span>
@@ -66,7 +79,7 @@ export default async function ModulosPage() {
               <span className="anim-shimmer-text">Aprendizaje</span>
             </h1>
             <p className="mt-3 text-sm sm:text-base max-w-xl" style={{ color: "#6b7280" }}>
-              Desarrolla habilidades técnicas con unidades temáticas que incluyen teoría, conceptos clave y evaluaciones.
+              Desarrolla habilidades técnicas con unidades temáticas estructuradas por lecciones, conceptos y evaluaciones.
             </p>
           </div>
           <Link
@@ -88,19 +101,21 @@ export default async function ModulosPage() {
 
       {/* ── Module Grid ── */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
-        {contenidoModulos.map((modulo, idx) => {
+        {modulos.map((modulo, idx) => {
           const color = MODULE_COLORS[idx % MODULE_COLORS.length];
           const delay = [150, 250, 350][idx] ?? 150;
+          const isLocked = !modulo.desbloqueado;
+
           return (
             <div
               key={modulo.id}
-              className="module-card glass-card group flex flex-col rounded-2xl overflow-hidden anim-fade-up"
-              style={{ animationDelay: `${delay}ms`, border: `1px solid ${color.border}` }}
+              className={`module-card glass-card group flex flex-col rounded-2xl overflow-hidden anim-fade-up transition-all duration-300 ${isLocked ? "opacity-75 grayscale-[40%]" : ""}`}
+              style={{ animationDelay: `${delay}ms`, border: `1px solid ${isLocked ? "rgba(255,255,255,0.06)" : color.border}` }}
             >
               {/* Top gradient bar */}
               <div
                 className="h-1 w-full"
-                style={{ background: `linear-gradient(90deg, ${color.accent}, ${MODULE_COLORS[(idx + 1) % 3].accent})` }}
+                style={{ background: isLocked ? "rgba(255,255,255,0.1)" : `linear-gradient(90deg, ${color.accent}, ${MODULE_COLORS[(idx + 1) % 3].accent})` }}
               />
 
               {/* Image */}
@@ -116,21 +131,24 @@ export default async function ModulosPage() {
                   style={{ background: "linear-gradient(to top, rgba(5,5,15,0.95) 0%, rgba(5,5,15,0.3) 50%, transparent 100%)" }}
                 />
 
-                {/* Duration badge */}
-                <span
-                  className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold backdrop-blur-sm"
-                  style={{ background: "rgba(5,5,15,0.75)", border: "1px solid rgba(255,255,255,0.08)", color: "#d1d5db" }}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke={color.accent} className="w-3.5 h-3.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                  </svg>
-                  {modulo.duracion}
-                </span>
+                {/* Lock Overlay for locked modules */}
+                {isLocked && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-zinc-950/60 backdrop-blur-[2px]">
+                    <div className="flex flex-col items-center gap-2 rounded-2xl bg-zinc-900/95 border border-zinc-800 p-4 shadow-2xl">
+                      <span className="text-3xl">🔒</span>
+                      <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Módulo Bloqueado</span>
+                    </div>
+                  </div>
+                )}
 
                 {/* Module number */}
                 <span
                   className="absolute top-3 left-3 rounded-lg px-2 py-0.5 text-xs font-bold font-mono tracking-widest"
-                  style={{ background: color.bg, border: `1px solid ${color.border}`, color: color.accent }}
+                  style={{
+                    background: isLocked ? "rgba(255,255,255,0.05)" : color.bg,
+                    border: `1px solid ${isLocked ? "rgba(255,255,255,0.1)" : color.border}`,
+                    color: isLocked ? "#9ca3af" : color.accent
+                  }}
                 >
                   MOD {modulo.id.toString().padStart(2, "0")}
                 </span>
@@ -141,12 +159,16 @@ export default async function ModulosPage() {
                 <div className="flex items-center gap-3 mb-4">
                   <div
                     className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all duration-300"
-                    style={{ background: color.bg, border: `1px solid ${color.border}`, color: color.accent }}
+                    style={{
+                      background: isLocked ? "rgba(255,255,255,0.03)" : color.bg,
+                      border: `1px solid ${isLocked ? "rgba(255,255,255,0.05)" : color.border}`,
+                      color: isLocked ? "#4b5563" : color.accent
+                    }}
                   >
-                    <ModuleIcon id={modulo.id} />
+                    {isLocked ? <span>🔒</span> : <ModuleIcon id={modulo.id} />}
                   </div>
                   <h3 className="text-lg font-bold text-white leading-tight transition-colors duration-300">
-                    {modulo.titulo}
+                    {modulo.titulo} {isLocked && <span className="text-sm ml-1">🔒</span>}
                   </h3>
                 </div>
 
@@ -154,33 +176,41 @@ export default async function ModulosPage() {
                   {modulo.descripcionCorto}
                 </p>
 
-                {/* Concepts preview */}
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {modulo.conceptosClave.slice(0, 2).map((c, i) => (
-                    <span
-                      key={i}
-                      className="rounded-md px-2 py-0.5 text-[10px] font-semibold"
-                      style={{ background: color.bg, color: color.accent, border: `1px solid ${color.border}` }}
-                    >
-                      {c.titulo}
-                    </span>
-                  ))}
+                {/* Lessons indicator */}
+                <div className="mt-4 flex items-center justify-between text-xs text-zinc-500 font-semibold">
+                  <span>3 Lecciones académicas</span>
+                  {isLocked ? (
+                    <span className="text-zinc-600">Bloqueado</span>
+                  ) : modulo.completado ? (
+                    <span className="text-emerald-400">Completado ✓</span>
+                  ) : (
+                    <span className="text-violet-400">En curso</span>
+                  )}
                 </div>
 
                 <div className="mt-5 pt-5" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-                  <Link
-                    href={`/modulos/${modulo.id}`}
-                    className="btn-glow flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold text-white transition-all duration-300"
-                    style={{
-                      background: `linear-gradient(135deg, ${color.accent}22, ${color.accent}11)`,
-                      border: `1px solid ${color.border}`,
-                    }}
-                  >
-                    Ver contenido
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={color.accent} className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0-7.5 7.5M21 12H3" />
-                    </svg>
-                  </Link>
+                  {isLocked ? (
+                    <button
+                      disabled
+                      className="flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold text-zinc-500 bg-zinc-900/40 border border-zinc-900 cursor-not-allowed"
+                    >
+                      Contenido Bloqueado 🔒
+                    </button>
+                  ) : (
+                    <Link
+                      href={`/modulos/${modulo.id}`}
+                      className="btn-glow flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold text-white transition-all duration-300"
+                      style={{
+                        background: `linear-gradient(135deg, ${color.accent}22, ${color.accent}11)`,
+                        border: `1px solid ${color.border}`,
+                      }}
+                    >
+                      Ingresar al Módulo
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={color.accent} className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0-7.5 7.5M21 12H3" />
+                      </svg>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

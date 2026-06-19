@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import prisma from "@/lib/prisma";
 import { contenidoModulos } from "@/data/contenidoModulos";
+import { obtenerProgresoEstudiante } from "@/lib/progreso";
 
 const JWT_SECRET = process.env.JWT_SECRET || "nexora_edu_super_secret_jwt_key_2026";
 
@@ -22,20 +23,32 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Token inválido." }, { status: 401 });
     }
 
-    const { moduloId, respuestas } = await req.json();
+    const { moduloId, leccionId, respuestas } = await req.json();
 
-    if (!moduloId || !Array.isArray(respuestas)) {
+    if (!moduloId || !leccionId || !Array.isArray(respuestas)) {
       return NextResponse.json({ error: "Datos de evaluación incompletos." }, { status: 400 });
     }
 
+    // Verificar seguridad: ¿Está la lección desbloqueada?
+    const { modulos } = await obtenerProgresoEstudiante(decoded.id);
+    const modProg = modulos.find((m) => m.id === Number(moduloId));
+    const leccProg = modProg?.lecciones.find((l) => l.id === Number(leccionId));
+
+    if (!leccProg || !leccProg.desbloqueado) {
+      return NextResponse.json({ error: "Esta lección se encuentra bloqueada." }, { status: 403 });
+    }
+
+    // Buscar lección y módulo
     const modulo = contenidoModulos.find((m) => m.id === Number(moduloId));
-    if (!modulo) {
-      return NextResponse.json({ error: "Módulo no encontrado." }, { status: 404 });
+    const leccion = modulo?.lecciones.find((l) => l.id === Number(leccionId));
+
+    if (!modulo || !leccion) {
+      return NextResponse.json({ error: "Módulo o lección no encontrados." }, { status: 404 });
     }
 
     // Calcular puntaje
     let correctas = 0;
-    const detalles = modulo.preguntas.map((pregunta) => {
+    const detalles = leccion.preguntas.map((pregunta) => {
       const respuestaUsuario = respuestas.find((r: any) => r.preguntaId === pregunta.id);
       const seleccionada = respuestaUsuario?.respuesta ?? -1;
       const esCorrecta = seleccionada === pregunta.respuestaCorrecta;
@@ -43,7 +56,7 @@ export async function POST(req: NextRequest) {
       return {
         preguntaId: pregunta.id,
         pregunta: pregunta.pregunta,
-        opciones: (pregunta as any).opciones ?? [],
+        opciones: pregunta.opciones ?? [],
         respuestaUsuario: seleccionada,
         respuestaCorrecta: pregunta.respuestaCorrecta,
         correcta: esCorrecta,
@@ -51,7 +64,7 @@ export async function POST(req: NextRequest) {
       };
     });
 
-    const total = modulo.preguntas.length;
+    const total = leccion.preguntas.length;
     const puntaje = Math.round((correctas / total) * 100);
 
     // Guardar en la base de datos
@@ -61,7 +74,12 @@ export async function POST(req: NextRequest) {
         tipo: "evaluacion",
         estado: "completado",
         fecha_fin: new Date(),
-        metadatos: JSON.stringify({ moduloId: modulo.id, moduloTitulo: modulo.titulo }),
+        metadatos: JSON.stringify({
+          moduloId: modulo.id,
+          moduloTitulo: modulo.titulo,
+          leccionId: leccion.id,
+          leccionTitulo: leccion.titulo,
+        }),
       },
     });
 
@@ -69,7 +87,7 @@ export async function POST(req: NextRequest) {
       data: {
         actividad_id: actividad.id,
         contenido: JSON.stringify({ puntaje, correctas, total, detalles }),
-        tipo_resultado: "evaluacion_modulo",
+        tipo_resultado: "evaluacion_leccion",
       },
     });
 

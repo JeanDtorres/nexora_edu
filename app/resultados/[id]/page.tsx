@@ -12,11 +12,11 @@ interface PageProps {
 }
 
 const scoreColor = (p: number) =>
-  p >= 80 ? "#34d399" : p >= 60 ? "#fbbf24" : "#f87171";
+  p >= 70 ? "#34d399" : "#f87171";
 const scoreBg = (p: number) =>
-  p >= 80 ? "rgba(16,185,129,0.1)" : p >= 60 ? "rgba(245,158,11,0.1)" : "rgba(239,68,68,0.1)";
+  p >= 70 ? "rgba(16,185,129,0.1)" : "rgba(239,68,68,0.1)";
 const scoreBdr = (p: number) =>
-  p >= 80 ? "rgba(16,185,129,0.3)" : p >= 60 ? "rgba(245,158,11,0.3)" : "rgba(239,68,68,0.3)";
+  p >= 70 ? "rgba(16,185,129,0.3)" : "rgba(239,68,68,0.3)";
 
 export default async function ResultadoDetailPage({ params }: PageProps) {
   const cookieStore = await cookies();
@@ -55,30 +55,37 @@ export default async function ResultadoDetailPage({ params }: PageProps) {
   };
 
   const moduloId    = meta.moduloId as number | undefined;
+  const leccionId   = meta.leccionId as number | undefined;
   const moduloData  = moduloId ? contenidoModulos.find((m) => m.id === moduloId) : null;
+  const leccionData = (moduloData && leccionId) ? moduloData.lecciones.find((l) => l.id === leccionId) : null;
 
   type DetalleItem = {
-    preguntaId: number; pregunta: string; opciones: string[];
-    respuestaUsuario: number; respuestaCorrecta: number;
-    correcta: boolean; explicacion: string;
+    preguntaId: number;
+    pregunta: string;
+    opciones: string[];
+    respuestaUsuario: number;
+    respuestaCorrecta: number;
+    correcta: boolean;
+    explicacion: string;
   };
 
   const detalles: DetalleItem[] = (rawDetalles ?? []).map((d: any): DetalleItem => {
-    const preguntaData = moduloData?.preguntas?.find((p: any) => p.id === d.preguntaId);
+    const preguntaData = leccionData?.preguntas?.find((p: any) => p.id === d.preguntaId);
     return {
       preguntaId:        d.preguntaId,
       pregunta:          d.pregunta,
       opciones:          d.opciones ?? (preguntaData as any)?.opciones ?? [],
       respuestaUsuario:  d.respuestaUsuario ?? d.seleccionada ?? -1,
-      respuestaCorrecta: d.respuestaCorrecta ?? (typeof d.correcta === "number" ? d.correcta : (preguntaData as any)?.respuestaCorrecta ?? -1),
+      respuestaCorrecta: d.respuestaCorrecta ?? (preguntaData as any)?.respuestaCorrecta ?? -1,
       correcta:          typeof d.correcta === "boolean" ? d.correcta : (d.esCorrecta ?? false),
       explicacion:       d.explicacion ?? "",
     };
   });
 
   const moduloTitulo = meta.moduloTitulo ?? "Módulo desconocido";
+  const leccionTitulo = meta.leccionTitulo ?? "Lección desconocida";
 
-  const emoji = puntaje === 100 ? "🏆" : puntaje >= 80 ? "🌟" : puntaje >= 60 ? "✅" : "📚";
+  const emoji = puntaje === 100 ? "🏆" : puntaje >= 70 ? "🌟" : "📚";
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 flex-1 w-full">
@@ -107,10 +114,11 @@ export default async function ResultadoDetailPage({ params }: PageProps) {
           <p className="text-5xl mb-3">{emoji}</p>
           <div className="text-7xl font-black mb-2" style={{ color: scoreColor(puntaje) }}>{puntaje}%</div>
           <p className="text-lg font-bold text-white mb-1">
-            {puntaje === 100 ? "¡Perfecto!" : puntaje >= 80 ? "¡Excelente!" : puntaje >= 60 ? "¡Aprobado!" : "¡Sigue practicando!"}
+            {puntaje === 100 ? "¡Perfecto!" : puntaje >= 70 ? "¡Aprobado!" : "¡Sigue practicando!"}
           </p>
           <p className="text-sm mb-5" style={{ color: "#6b7280" }}>
             {correctas} de {total} respuestas correctas · {moduloTitulo}
+            {leccionId && <span className="block mt-1 text-xs text-zinc-400">Lección {leccionId}: {leccionTitulo}</span>}
           </p>
 
           {/* Progress bar */}
@@ -211,8 +219,8 @@ export default async function ResultadoDetailPage({ params }: PageProps) {
 
       {/* Actions */}
       <div className="flex flex-col sm:flex-row gap-3 mt-8 anim-fade-up">
-        {moduloData && (
-          <Link href={`/evaluacion/${moduloId}`}
+        {moduloData && leccionId && (
+          <Link href={`/evaluacion/${moduloId}/${leccionId}`}
             className="flex-1 text-center rounded-xl py-3.5 text-sm font-bold transition-all duration-200 hover:scale-[1.02]"
             style={{
               background: "linear-gradient(135deg, #6d28d9, #c026d3)",

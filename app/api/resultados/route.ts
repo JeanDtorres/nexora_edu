@@ -42,6 +42,8 @@ export async function GET() {
         id: actividad.id,
         moduloId: metadatos.moduloId ?? null,
         moduloTitulo: metadatos.moduloTitulo ?? "Módulo desconocido",
+        leccionId: metadatos.leccionId ?? null,
+        leccionTitulo: metadatos.leccionTitulo ?? null,
         fechaCompletado: actividad.fecha_fin ?? actividad.fecha_inicio,
         puntaje: contenido?.puntaje ?? 0,
         correctas: contenido?.correctas ?? 0,

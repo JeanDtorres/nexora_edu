@@ -3,16 +3,16 @@ import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
-import { contenidoModulos } from "@/data/contenidoModulos";
+import { obtenerProgresoEstudiante } from "@/lib/progreso";
 
 const JWT_SECRET = process.env.JWT_SECRET || "nexora_edu_super_secret_jwt_key_2026";
 
 const scoreColor = (p: number) =>
-  p >= 80 ? "#34d399" : p >= 60 ? "#fbbf24" : "#f87171";
+  p >= 70 ? "#34d399" : "#f87171";
 const scoreBg = (p: number) =>
-  p >= 80 ? "rgba(16,185,129,0.1)" : p >= 60 ? "rgba(245,158,11,0.1)" : "rgba(239,68,68,0.1)";
+  p >= 70 ? "rgba(16,185,129,0.1)" : "rgba(239,68,68,0.1)";
 const scoreBdr = (p: number) =>
-  p >= 80 ? "rgba(16,185,129,0.3)" : p >= 60 ? "rgba(245,158,11,0.3)" : "rgba(239,68,68,0.3)";
+  p >= 70 ? "rgba(16,185,129,0.3)" : "rgba(239,68,68,0.3)";
 
 export default async function PerfilPage() {
   const cookieStore = await cookies();
@@ -34,45 +34,18 @@ export default async function PerfilPage() {
     orderBy: { fecha_inicio: "desc" },
   });
 
-  /* ─── Progreso por módulo ─── */
-  const progreso = contenidoModulos.map((modulo) => {
-    const lecturas = actividades.filter(
-      (a) => a.tipo === "lectura" && a.metadatos?.includes(`"moduloId":${modulo.id}`)
-    );
-    const evals = actividades.filter(
-      (a) => a.tipo === "evaluacion" && a.metadatos?.includes(`"moduloId":${modulo.id}`)
-    );
-
-    const scores = evals
-      .map((a) => {
-        const c = a.resultados[0]?.contenido ? JSON.parse(a.resultados[0].contenido) : null;
-        return c?.puntaje ?? null;
-      })
-      .filter((s): s is number => s !== null);
-
-    const mejorPuntaje = scores.length > 0 ? Math.max(...scores) : null;
-
-    return {
-      id:           modulo.id,
-      titulo:       modulo.titulo,
-      imagen:       modulo.imagen,
-      leido:        lecturas.length > 0,
-      ultimaLectura: lecturas[0]?.fecha_inicio ?? null,
-      evaluado:     evals.length > 0,
-      intentos:     evals.length,
-      mejorPuntaje,
-      ultimaEval:   evals[0]?.fecha_inicio ?? null,
-    };
-  });
+  // Obtener progreso centralizado
+  const { modulos, stats } = await obtenerProgresoEstudiante(usuario.id);
 
   /* ─── Stats globales ─── */
   const totalEvals    = actividades.filter((a) => a.tipo === "evaluacion").length;
   const totalLecturas = actividades.filter((a) => a.tipo === "lectura").length;
-  const allScores     = progreso.map((p) => p.mejorPuntaje).filter((s): s is number => s !== null);
-  const promedio      = allScores.length > 0 ? Math.round(allScores.reduce((a, b) => a + b, 0) / allScores.length) : null;
-  const completado    = progreso.every((p) => p.leido && p.evaluado);
-  const modulosLeidos = progreso.filter((p) => p.leido).length;
-  const modulosEvals  = progreso.filter((p) => p.evaluado).length;
+  const promedio      = stats.promedioScore;
+  const completado    = stats.completado;
+  
+  const leccionesLeidas = stats.leccionesLeidas;
+  const leccionesAprobadas = stats.leccionesAprobadas;
+  const totalLecciones = stats.totalLecciones;
 
   /* ─── Iniciales ─── */
   const iniciales = usuario.nombre.split(" ").slice(0, 2).map((n) => n[0]).join("").toUpperCase();
@@ -150,10 +123,10 @@ export default async function PerfilPage() {
       {/* Stats row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 anim-fade-up delay-150">
         {[
-          { label: "Módulos leídos",     value: `${modulosLeidos}/${contenidoModulos.length}`,  color: "#38bdf8" },
-          { label: "Evaluaciones",       value: `${modulosEvals}/${contenidoModulos.length}`,   color: "#a78bfa" },
-          { label: "Intentos totales",   value: totalEvals,                                     color: "#fbbf24" },
-          { label: "Lecturas realizadas",value: totalLecturas,                                  color: "#34d399" },
+          { label: "Lecciones leídas",   value: `${leccionesLeidas}/${totalLecciones}`,  color: "#38bdf8" },
+          { label: "Lecciones aprobadas", value: `${leccionesAprobadas}/${totalLecciones}`, color: "#a78bfa" },
+          { label: "Intentos evaluados", value: totalEvals,                                     color: "#fbbf24" },
+          { label: "Lecturas registradas",value: totalLecturas,                                  color: "#34d399" },
         ].map(({ label, value, color }) => (
           <div key={label} className="rounded-2xl px-5 py-4 text-center"
             style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}>
@@ -167,17 +140,17 @@ export default async function PerfilPage() {
       <div className="rounded-2xl p-6 mb-8 anim-fade-up delay-200"
         style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}>
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#6b7280" }}>Progreso del curso</span>
+          <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#6b7280" }}>Progreso de Aprobación del Curso</span>
           <span className="text-xs font-bold" style={{ color: "#a78bfa" }}>
-            {Math.round(((modulosLeidos + modulosEvals) / (contenidoModulos.length * 2)) * 100)}%
+            {Math.round((leccionesAprobadas / totalLecciones) * 100)}%
           </span>
         </div>
         <div className="h-2.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
           <div className="h-full rounded-full progress-bar-fill"
             style={{
-              width: `${Math.round(((modulosLeidos + modulosEvals) / (contenidoModulos.length * 2)) * 100)}%`,
+              width: `${Math.round((leccionesAprobadas / totalLecciones) * 100)}%`,
               background: "linear-gradient(90deg, #6d28d9, #c026d3, #ec4899)",
-              "--target-width": `${Math.round(((modulosLeidos + modulosEvals) / (contenidoModulos.length * 2)) * 100)}%`,
+              "--target-width": `${Math.round((leccionesAprobadas / totalLecciones) * 100)}%`,
             } as React.CSSProperties} />
         </div>
       </div>
@@ -187,13 +160,16 @@ export default async function PerfilPage() {
         Estado por módulo
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
-        {progreso.map((p, idx) => {
+        {modulos.map((p, idx) => {
           const accent = MODULE_ACCENT[idx % 3];
+          const leccionesAprobadasCount = p.lecciones.filter(l => l.aprobado).length;
+          const leccionesLeidasCount = p.lecciones.filter(l => l.leido).length;
+          
           return (
-            <div key={p.id} className="rounded-2xl overflow-hidden anim-scale-in"
+            <div key={p.id} className="rounded-2xl overflow-hidden anim-scale-in flex flex-col justify-between"
               style={{
                 background: "rgba(10,10,22,0.7)",
-                border: `1px solid ${p.leido || p.evaluado ? `${accent}33` : "rgba(255,255,255,0.07)"}`,
+                border: `1px solid ${p.desbloqueado ? `${accent}33` : "rgba(255,255,255,0.07)"}`,
                 animationDelay: `${idx * 80}ms`,
               }}>
               {/* Image */}
@@ -201,61 +177,84 @@ export default async function PerfilPage() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={p.imagen} alt={p.titulo} className="h-full w-full object-cover" />
                 <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(5,5,15,0.95), transparent)" }} />
+                
+                {/* Status Badges */}
                 <div className="absolute top-3 right-3 flex gap-2">
-                  {p.leido && (
+                  {!p.desbloqueado ? (
                     <span className="rounded-full px-2 py-0.5 text-[10px] font-bold backdrop-blur-sm"
-                      style={{ background: "rgba(56,189,248,0.15)", border: "1px solid rgba(56,189,248,0.3)", color: "#38bdf8" }}>
-                      📖 Leído
+                      style={{ background: "rgba(239,68,68,0.15)", border: "1px solid rgba(239,68,68,0.3)", color: "#f87171" }}>
+                      🔒 Bloqueado
                     </span>
-                  )}
-                  {p.evaluado && (
+                  ) : p.completado ? (
                     <span className="rounded-full px-2 py-0.5 text-[10px] font-bold backdrop-blur-sm"
                       style={{ background: "rgba(16,185,129,0.15)", border: "1px solid rgba(16,185,129,0.3)", color: "#6ee7b7" }}>
-                      ✓ Evaluado
+                      ✓ Completado
+                    </span>
+                  ) : (
+                    <span className="rounded-full px-2 py-0.5 text-[10px] font-bold backdrop-blur-sm"
+                      style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)", color: "#e879f9" }}>
+                      En curso
                     </span>
                   )}
                 </div>
               </div>
 
-              <div className="p-5">
-                <span className="text-[10px] font-bold uppercase tracking-widest mb-1 block" style={{ color: accent }}>
-                  Módulo {p.id}
-                </span>
-                <h3 className="text-sm font-bold text-white mb-4 leading-snug">{p.titulo}</h3>
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-widest mb-1 block" style={{ color: p.desbloqueado ? accent : "#4b5563" }}>
+                    Módulo {p.id}
+                  </span>
+                  <h3 className="text-sm font-bold text-white mb-4 leading-snug">
+                    {p.titulo} {!p.desbloqueado && "🔒"}
+                  </h3>
 
-                {p.mejorPuntaje !== null ? (
-                  <div className="mb-4">
-                    <div className="flex justify-between text-xs mb-1.5" style={{ color: "#6b7280" }}>
-                      <span>Mejor puntaje</span>
-                      <span style={{ color: scoreColor(p.mejorPuntaje), fontWeight: 700 }}>{p.mejorPuntaje}%</span>
-                    </div>
-                    <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
-                      <div className="h-full rounded-full"
-                        style={{ width: `${p.mejorPuntaje}%`, background: scoreColor(p.mejorPuntaje), transition: "width 0.7s ease" }} />
-                    </div>
-                    {p.intentos > 1 && (
-                      <p className="text-[10px] mt-1" style={{ color: "#4b5563" }}>{p.intentos} intentos</p>
-                    )}
-                  </div>
-                ) : (
-                  <p className="text-xs mb-4" style={{ color: "#374151" }}>Aún no evaluado</p>
-                )}
+                  {p.desbloqueado ? (
+                    <div className="mb-4 space-y-2.5">
+                      {/* Read progress */}
+                      <div>
+                        <div className="flex justify-between text-[11px] mb-1" style={{ color: "#6b7280" }}>
+                          <span>Lecciones leídas</span>
+                          <span className="font-semibold text-zinc-300">{leccionesLeidasCount} / 3</span>
+                        </div>
+                        <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
+                          <div className="h-full rounded-full"
+                            style={{ width: `${(leccionesLeidasCount / 3) * 100}%`, background: "#38bdf8", transition: "width 0.7s ease" }} />
+                        </div>
+                      </div>
 
-                <div className="flex gap-2">
-                  <Link href={`/modulos/${p.id}`}
-                    className="flex-1 text-center rounded-xl py-2 text-xs font-semibold transition-all duration-200 hover:scale-[1.02]"
-                    style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#6b7280" }}>
-                    {p.leido ? "Releer" : "Leer"}
-                  </Link>
-                  <Link href={`/evaluacion/${p.id}`}
-                    className="flex-1 text-center rounded-xl py-2 text-xs font-semibold transition-all duration-200 hover:scale-[1.02]"
-                    style={{
-                      background: `${accent}18`,
-                      border: `1px solid ${accent}44`,
-                      color: accent,
-                    }}>
-                    {p.evaluado ? "Re-evaluar" : "Evaluar"}
-                  </Link>
+                      {/* Passed progress */}
+                      <div>
+                        <div className="flex justify-between text-[11px] mb-1" style={{ color: "#6b7280" }}>
+                          <span>Lecciones aprobadas</span>
+                          <span className="font-semibold text-zinc-300">{leccionesAprobadasCount} / 3</span>
+                        </div>
+                        <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
+                          <div className="h-full rounded-full"
+                            style={{ width: `${(leccionesAprobadasCount / 3) * 100}%`, background: "#34d399", transition: "width 0.7s ease" }} />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-xs mb-4 text-zinc-650">Desbloquea aprobando todas las lecciones del módulo anterior.</p>
+                  )}
+                </div>
+
+                <div className="flex gap-2 mt-2">
+                  {p.desbloqueado ? (
+                    <Link href={`/modulos/${p.id}`}
+                      className="flex-1 text-center rounded-xl py-2.5 text-xs font-bold transition-all duration-200 hover:scale-[1.02] text-white"
+                      style={{
+                        background: `${accent}18`,
+                        border: `1px solid ${accent}44`,
+                      }}>
+                      Ingresar al Módulo
+                    </Link>
+                  ) : (
+                    <button disabled
+                      className="flex-1 text-center rounded-xl py-2.5 text-xs font-semibold text-zinc-600 bg-zinc-900/40 border border-zinc-900 cursor-not-allowed w-full">
+                      Bloqueado 🔒
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -271,6 +270,8 @@ export default async function PerfilPage() {
             {actividades.slice(0, 8).map((a, idx) => {
               const meta = a.metadatos ? JSON.parse(a.metadatos) : {};
               const contenido = a.resultados[0]?.contenido ? JSON.parse(a.resultados[0].contenido) : null;
+              const esLectura = a.tipo === "lectura";
+              
               return (
                 <div key={a.id} className="flex items-center justify-between px-5 py-3.5 gap-4 anim-fade-left"
                   style={{
@@ -278,20 +279,25 @@ export default async function PerfilPage() {
                     animationDelay: `${idx * 40}ms`,
                   }}>
                   <div className="flex items-center gap-3 min-w-0">
-                    <span className="text-lg shrink-0">{a.tipo === "evaluacion" ? "📝" : "📖"}</span>
+                    <span className="text-lg shrink-0">{esLectura ? "📖" : "📝"}</span>
                     <div className="min-w-0">
                       <p className="text-sm font-semibold text-white truncate">
-                        {a.tipo === "evaluacion" ? "Evaluación completada" : "Módulo leído"}
+                        {esLectura ? "Lección leída" : "Evaluación de lección completada"}
                       </p>
-                      <p className="text-xs truncate" style={{ color: "#6b7280" }}>
+                      <p className="text-xs truncate text-zinc-500">
                         {meta.moduloTitulo ?? `Módulo ${meta.moduloId}`}
+                        {meta.leccionId && ` · Lección ${meta.leccionId}: ${meta.leccionTitulo}`}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 shrink-0">
                     {contenido?.puntaje !== undefined && (
                       <span className="text-xs font-bold rounded-full px-2.5 py-0.5"
-                        style={{ background: scoreBg(contenido.puntaje), color: scoreColor(contenido.puntaje), border: `1px solid ${scoreBdr(contenido.puntaje)}` }}>
+                        style={{
+                          background: scoreBg(contenido.puntaje),
+                          color: scoreColor(contenido.puntaje),
+                          border: `1px solid ${scoreBdr(contenido.puntaje)}`
+                        }}>
                         {contenido.puntaje}%
                       </span>
                     )}

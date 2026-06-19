@@ -111,11 +111,11 @@ export default async function DashboardPage() {
               <div
                 className="rounded-2xl px-5 py-4 text-center min-w-[90px]"
                 style={{
-                  background: lastScore >= 80 ? "rgba(16,185,129,0.1)" : lastScore >= 60 ? "rgba(245,158,11,0.1)" : "rgba(239,68,68,0.1)",
-                  border: `1px solid ${lastScore >= 80 ? "rgba(16,185,129,0.25)" : lastScore >= 60 ? "rgba(245,158,11,0.25)" : "rgba(239,68,68,0.25)"}`,
+                  background: lastScore >= 70 ? "rgba(16,185,129,0.1)" : "rgba(239,68,68,0.1)",
+                  border: `1px solid ${lastScore >= 70 ? "rgba(16,185,129,0.25)" : "rgba(239,68,68,0.25)"}`,
                 }}
               >
-                <p className="text-2xl font-black" style={{ color: lastScore >= 80 ? "#34d399" : lastScore >= 60 ? "#fbbf24" : "#f87171" }}>
+                <p className="text-2xl font-black" style={{ color: lastScore >= 70 ? "#34d399" : "#f87171" }}>
                   {lastScore}%
                 </p>
                 <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: "#6b7280" }}>Último quiz</p>
