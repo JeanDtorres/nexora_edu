@@ -25,21 +25,7 @@ export interface ModuleProgress {
   completado: boolean; // todas las lecciones aprobadas
 }
 
-export async function obtenerProgresoEstudiante(usuarioId: number) {
-  // Obtener rol del usuario
-  const usuario = await prisma.usuario.findUnique({
-    where: { id: usuarioId },
-    select: { rol: true },
-  });
-  const isAdmin = usuario?.rol === "admin";
-
-  // Obtener todas las actividades completadas del usuario
-  const actividades = await prisma.actividad.findMany({
-    where: { usuario_id: usuarioId, estado: "completado" },
-    include: { resultados: true },
-    orderBy: { fecha_inicio: "desc" },
-  });
-
+export function calcularProgresoConActividades(isAdmin: boolean, actividades: any[]) {
   // Mapear actividades de forma legible
   const lecturas = actividades.filter((a) => a.tipo === "lectura");
   const evaluaciones = actividades.filter((a) => a.tipo === "evaluacion");
@@ -200,4 +186,22 @@ export async function obtenerProgresoEstudiante(usuarioId: number) {
       completado: modulosProgreso.every((m) => m.completado),
     }
   };
+}
+
+export async function obtenerProgresoEstudiante(usuarioId: number) {
+  // Obtener rol del usuario
+  const usuario = await prisma.usuario.findUnique({
+    where: { id: usuarioId },
+    select: { rol: true },
+  });
+  const isAdmin = usuario?.rol === "admin";
+
+  // Obtener todas las actividades completadas del usuario
+  const actividades = await prisma.actividad.findMany({
+    where: { usuario_id: usuarioId, estado: "completado" },
+    include: { resultados: true },
+    orderBy: { fecha_inicio: "desc" },
+  });
+
+  return calcularProgresoConActividades(isAdmin, actividades);
 }

@@ -36,8 +36,8 @@ interface Props {
 
 /* ─── Helpers ─── */
 const scoreColor = (p: number) => p >= 80 ? "#34d399" : p >= 60 ? "#fbbf24" : "#f87171";
-const scoreBg    = (p: number) => p >= 80 ? "rgba(16,185,129,0.1)" : p >= 60 ? "rgba(245,158,11,0.1)" : "rgba(239,68,68,0.1)";
-const scoreBdr   = (p: number) => p >= 80 ? "rgba(16,185,129,0.3)" : p >= 60 ? "rgba(245,158,11,0.3)" : "rgba(239,68,68,0.3)";
+const scoreBg = (p: number) => p >= 80 ? "rgba(16,185,129,0.1)" : p >= 60 ? "rgba(245,158,11,0.1)" : "rgba(239,68,68,0.1)";
+const scoreBdr = (p: number) => p >= 80 ? "rgba(16,185,129,0.3)" : p >= 60 ? "rgba(245,158,11,0.3)" : "rgba(239,68,68,0.3)";
 
 function StatCard({ label, value, color, sub }: { label: string; value: string | number; color: string; sub?: string }) {
   return (
@@ -52,11 +52,11 @@ function StatCard({ label, value, color, sub }: { label: string; value: string |
 
 /* ─── TABS ─── */
 const TABS = [
-  { id: "resumen",   label: "Resumen",      icon: "📊" },
-  { id: "usuarios",  label: "Usuarios",     icon: "👥" },
-  { id: "resultados",label: "Resultados",   icon: "📋" },
-  { id: "modulos",   label: "Módulos",      icon: "📚" },
-  { id: "nuevo",     label: "Nuevo Usuario",icon: "➕" },
+  { id: "resumen", label: "Resumen", icon: "📊" },
+  { id: "usuarios", label: "Usuarios", icon: "👥" },
+  { id: "resultados", label: "Resultados", icon: "📋" },
+  { id: "modulos", label: "Módulos", icon: "📚" },
+  { id: "nuevo", label: "Nuevo Usuario", icon: "➕" },
 ];
 
 export default function AdminPanel({ usuarios: usuariosInit, resultados: resultadosInit, stats, adminId }: Props) {
@@ -64,17 +64,17 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
   const [usuarios, setUsuarios] = useState(usuariosInit);
   const [resultados] = useState(resultadosInit);
   const [cargandoRol, setCargandoRol] = useState<number | null>(null);
-  const [msgRol, setMsgRol] = useState<{ tipo: "ok"|"err"; texto: string } | null>(null);
+  const [msgRol, setMsgRol] = useState<{ tipo: "ok" | "err"; texto: string } | null>(null);
   const [cargandoElim, setCargandoElim] = useState<number | null>(null);
   const [filtroResultados, setFiltroResultados] = useState("");
 
   /* Nuevo usuario form */
   const [nuevoNombre, setNuevoNombre] = useState("");
-  const [nuevoEmail, setNuevoEmail]   = useState("");
-  const [nuevoPass,  setNuevoPass]    = useState("");
-  const [nuevoRol,   setNuevoRol]     = useState<"normal"|"admin">("normal");
-  const [creando, setCreando]         = useState(false);
-  const [msgNuevo, setMsgNuevo]       = useState<{ tipo: "ok"|"err"; texto: string } | null>(null);
+  const [nuevoEmail, setNuevoEmail] = useState("");
+  const [nuevoPass, setNuevoPass] = useState("");
+  const [nuevoRol, setNuevoRol] = useState<"normal" | "admin">("normal");
+  const [creando, setCreando] = useState(false);
+  const [msgNuevo, setMsgNuevo] = useState<{ tipo: "ok" | "err"; texto: string } | null>(null);
 
   /* ─── Actions ─── */
   const cambiarRol = async (id: number, rolActual: string) => {
@@ -130,10 +130,10 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
 
   const resultadosFiltrados = filtroResultados.trim()
     ? resultados.filter((r) =>
-        r.usuarioNombre.toLowerCase().includes(filtroResultados.toLowerCase()) ||
-        r.usuarioEmail.toLowerCase().includes(filtroResultados.toLowerCase()) ||
-        r.moduloTitulo.toLowerCase().includes(filtroResultados.toLowerCase())
-      )
+      r.usuarioNombre.toLowerCase().includes(filtroResultados.toLowerCase()) ||
+      r.usuarioEmail.toLowerCase().includes(filtroResultados.toLowerCase()) ||
+      r.moduloTitulo.toLowerCase().includes(filtroResultados.toLowerCase())
+    )
     : resultados;
 
   /* ─── Render ─── */
@@ -152,7 +152,7 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
             }}
           >
             <span>{t.icon}</span>{t.label}
-            {t.id === "usuarios"   && <span className="rounded-full px-1.5 py-0.5 text-[10px] font-bold" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa" }}>{usuarios.length}</span>}
+            {t.id === "usuarios" && <span className="rounded-full px-1.5 py-0.5 text-[10px] font-bold" style={{ background: "rgba(37,99,235,0.15)", color: "#60a5fa" }}>{usuarios.length}</span>}
             {t.id === "resultados" && <span className="rounded-full px-1.5 py-0.5 text-[10px] font-bold" style={{ background: "rgba(14,165,233,0.15)", color: "#38bdf8" }}>{resultados.length}</span>}
           </button>
         ))}
@@ -442,7 +442,7 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {stats.modulosStats.map((m, idx) => {
-                const color = [["#2563eb","rgba(37,99,235,0.15)","rgba(37,99,235,0.25)"],["#0ea5e9","rgba(14,165,233,0.12)","rgba(14,165,233,0.25)"],["#38bdf8","rgba(56,189,248,0.12)","rgba(56,189,248,0.25)"]][idx % 3];
+                const color = [["#2563eb", "rgba(37,99,235,0.15)", "rgba(37,99,235,0.25)"], ["#0ea5e9", "rgba(14,165,233,0.12)", "rgba(14,165,233,0.25)"], ["#38bdf8", "rgba(56,189,248,0.12)", "rgba(56,189,248,0.25)"]][idx % 3];
                 return (
                   <div key={m.moduloId} className="rounded-2xl p-6 anim-scale-in"
                     style={{ background: color[1], border: `1px solid ${color[2]}`, animationDelay: `${idx * 80}ms` }}>
@@ -470,8 +470,8 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
 
                     {/* Min / Max */}
                     <div className="grid grid-cols-2 gap-3">
-                      {[{label:"Mejor",val:m.maxScore},{label:"Peor",val:m.minScore}].map(({label,val})=>(
-                        <div key={label} className="rounded-xl p-3 text-center" style={{ background:"rgba(255,255,255,0.04)" }}>
+                      {[{ label: "Mejor", val: m.maxScore }, { label: "Peor", val: m.minScore }].map(({ label, val }) => (
+                        <div key={label} className="rounded-xl p-3 text-center" style={{ background: "rgba(255,255,255,0.04)" }}>
                           <p className="text-lg font-black" style={{ color: scoreColor(val) }}>{val}%</p>
                           <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: "#4b5563" }}>{label}</p>
                         </div>
@@ -506,9 +506,9 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
 
             <form onSubmit={crearUsuario} className="space-y-4">
               {[
-                { label: "Nombre completo", val: nuevoNombre, set: setNuevoNombre, type: "text",     ph: "Ej. María García" },
-                { label: "Correo electrónico", val: nuevoEmail, set: setNuevoEmail, type: "email",    ph: "correo@ejemplo.com" },
-                { label: "Contraseña",         val: nuevoPass,  set: setNuevoPass,  type: "password", ph: "Mínimo 6 caracteres" },
+                { label: "Nombre completo", val: nuevoNombre, set: setNuevoNombre, type: "text", ph: "Ej. María García" },
+                { label: "Correo electrónico", val: nuevoEmail, set: setNuevoEmail, type: "email", ph: "correo@ejemplo.com" },
+                { label: "Contraseña", val: nuevoPass, set: setNuevoPass, type: "password", ph: "Mínimo 6 caracteres" },
               ].map(({ label, val, set, type, ph }) => (
                 <div key={label}>
                   <label className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#2563eb" }}>{label}</label>
@@ -522,7 +522,7 @@ export default function AdminPanel({ usuarios: usuariosInit, resultados: resulta
               <div>
                 <label className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#2563eb" }}>Rol</label>
                 <div className="flex gap-3">
-                  {(["normal","admin"] as const).map((r) => (
+                  {(["normal", "admin"] as const).map((r) => (
                     <button key={r} type="button" onClick={() => setNuevoRol(r)}
                       className="flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all duration-200 cursor-pointer"
                       style={{

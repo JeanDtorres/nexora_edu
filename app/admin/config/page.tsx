@@ -48,21 +48,21 @@ export default async function AdminConfigPage() {
 
   /* ─── Resultados para la tabla ─── */
   const resultados = actividadesEval.map((a) => {
-    const meta     = a.metadatos ? JSON.parse(a.metadatos) : {};
+    const meta = a.metadatos ? JSON.parse(a.metadatos) : {};
     const contenido = a.resultados[0]?.contenido ? JSON.parse(a.resultados[0].contenido) : null;
     return {
-      id:            a.id,
-      usuarioId:     a.usuario.id,
+      id: a.id,
+      usuarioId: a.usuario.id,
       usuarioNombre: a.usuario.nombre,
-      usuarioEmail:  a.usuario.email,
-      moduloId:      meta.moduloId ?? null,
-      moduloTitulo:  meta.moduloTitulo ?? "Desconocido",
-      leccionId:     meta.leccionId ?? null,
+      usuarioEmail: a.usuario.email,
+      moduloId: meta.moduloId ?? null,
+      moduloTitulo: meta.moduloTitulo ?? "Desconocido",
+      leccionId: meta.leccionId ?? null,
       leccionTitulo: meta.leccionTitulo ?? null,
-      puntaje:       contenido?.puntaje ?? 0,
-      correctas:     contenido?.correctas ?? 0,
-      total:         contenido?.total ?? 0,
-      fecha:         a.fecha_fin ?? a.fecha_inicio,
+      puntaje: contenido?.puntaje ?? 0,
+      correctas: contenido?.correctas ?? 0,
+      total: contenido?.total ?? 0,
+      fecha: a.fecha_fin ?? a.fecha_inicio,
     };
   });
 
@@ -73,43 +73,43 @@ export default async function AdminConfigPage() {
       ? Math.round(evalsModulo.reduce((s, r) => s + r.puntaje, 0) / evalsModulo.length)
       : 0;
     return {
-      moduloId:      modulo.id,
-      moduloTitulo:  modulo.titulo,
-      evaluaciones:  evalsModulo.length,
+      moduloId: modulo.id,
+      moduloTitulo: modulo.titulo,
+      evaluaciones: evalsModulo.length,
       promedioScore: promedio,
-      maxScore:      evalsModulo.length > 0 ? Math.max(...evalsModulo.map((r) => r.puntaje)) : 0,
-      minScore:      evalsModulo.length > 0 ? Math.min(...evalsModulo.map((r) => r.puntaje)) : 0,
+      maxScore: evalsModulo.length > 0 ? Math.max(...evalsModulo.map((r) => r.puntaje)) : 0,
+      minScore: evalsModulo.length > 0 ? Math.min(...evalsModulo.map((r) => r.puntaje)) : 0,
     };
   }).filter((m) => m.evaluaciones > 0);
 
   /* ─── Stats globales ─── */
-  const totalLecturas  = await prisma.actividad.count({ where: { tipo: "lectura" } });
+  const totalLecturas = await prisma.actividad.count({ where: { tipo: "lectura" } });
   const promedioGlobal = resultados.length > 0
     ? Math.round(resultados.reduce((s, r) => s + r.puntaje, 0) / resultados.length)
     : 0;
 
   /* ─── Actividad reciente ─── */
   const actividadReciente = actividadesAll.map((a) => {
-    const meta     = a.metadatos ? JSON.parse(a.metadatos) : {};
+    const meta = a.metadatos ? JSON.parse(a.metadatos) : {};
     const contenido = a.resultados[0]?.contenido ? JSON.parse(a.resultados[0].contenido) : null;
     return {
-      id:         a.id,
-      tipo:       a.tipo,
-      estado:     a.estado,
-      usuario:    a.usuario.nombre,
-      fecha:      a.fecha_inicio,
-      metadatos:  meta,
-      puntaje:    contenido?.puntaje ?? null,
+      id: a.id,
+      tipo: a.tipo,
+      estado: a.estado,
+      usuario: a.usuario.nombre,
+      fecha: a.fecha_inicio,
+      metadatos: meta,
+      puntaje: contenido?.puntaje ?? null,
     };
   });
 
   const stats = {
-    totalUsuarios:   usuarios.length,
+    totalUsuarios: usuarios.length,
     totalEvaluaciones: actividadesEval.length,
     totalLecturas,
     promedioGlobal,
-    aprobados:   resultados.filter((r) => r.puntaje >= 70).length,
-    excelentes:  resultados.filter((r) => r.puntaje === 100).length,
+    aprobados: resultados.filter((r) => r.puntaje >= 70).length,
+    excelentes: resultados.filter((r) => r.puntaje === 100).length,
     modulosStats,
     actividadReciente,
   };
@@ -173,23 +173,23 @@ export default async function AdminConfigPage() {
           </div>
         </div>
 
-          {/* Mini stats */}
-          <div className="flex flex-wrap gap-3 mt-6">
-            {[
-              { label: "Usuarios",     value: usuarios.length,          color: "#a78bfa" },
-              { label: "Admins",       value: admins,                   color: "#f87171" },
-              { label: "Evaluaciones", value: actividadesEval.length,   color: "#34d399" },
-              { label: "Promedio",     value: `${promedioGlobal}%`,     color: "#fbbf24" },
-              { label: "Lecturas",     value: totalLecturas,            color: "#38bdf8" },
-            ].map(({ label, value, color }, i) => (
-              <div key={label} className="rounded-2xl px-4 py-3 text-center min-w-[72px] anim-scale-in"
-                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", animationDelay: `${i * 60}ms` }}>
-                <p className="text-xl font-black" style={{ color }}>{value}</p>
-                <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: "#4b5563" }}>{label}</p>
-              </div>
-            ))}
-          </div>
+        {/* Mini stats */}
+        <div className="flex flex-wrap gap-3 mt-6">
+          {[
+            { label: "Usuarios", value: usuarios.length, color: "#a78bfa" },
+            { label: "Admins", value: admins, color: "#f87171" },
+            { label: "Evaluaciones", value: actividadesEval.length, color: "#34d399" },
+            { label: "Promedio", value: `${promedioGlobal}%`, color: "#fbbf24" },
+            { label: "Lecturas", value: totalLecturas, color: "#38bdf8" },
+          ].map(({ label, value, color }, i) => (
+            <div key={label} className="rounded-2xl px-4 py-3 text-center min-w-[72px] anim-scale-in"
+              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", animationDelay: `${i * 60}ms` }}>
+              <p className="text-xl font-black" style={{ color }}>{value}</p>
+              <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: "#4b5563" }}>{label}</p>
+            </div>
+          ))}
         </div>
+      </div>
 
       {/* Panel with tabs */}
       <div className="rounded-3xl anim-fade-up delay-200"

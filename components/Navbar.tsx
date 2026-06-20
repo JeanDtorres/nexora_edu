@@ -18,6 +18,7 @@ export default function Navbar() {
     { href: "/dashboard",  label: "Dashboard"  },
     { href: "/modulos",    label: "Módulos"    },
     { href: "/resultados", label: "Resultados" },
+    { href: "/ranking",    label: "Ranking"    },
     { href: "/perfil",     label: "Mi Perfil"  },
     ...(user.rol === "admin" ? [{ href: "/admin/config", label: "Admin" }] : []),
   ];
