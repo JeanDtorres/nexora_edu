@@ -60,6 +60,7 @@ export async function POST(req: NextRequest) {
         respuestaUsuario: seleccionada,
         respuestaCorrecta: pregunta.respuestaCorrecta,
         correcta: esCorrecta,
+        esCorrecta: esCorrecta,
         explicacion: pregunta.explicacion,
       };
     });

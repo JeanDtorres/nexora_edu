@@ -325,6 +325,11 @@ export default function EvaluacionLeccionPage({ params }: PageProps) {
                     color: detalle.esCorrecta ? "#6ee7b7" : "#fde68a",
                   }}
                 >
+                  {detalle.esCorrecta && (
+                    <div className="font-bold text-emerald-400 mb-1">
+                      🎉 ¡Felicitaciones! Opción aprobada.
+                    </div>
+                  )}
                   <span className="font-bold">💡 Explicación:</span> {detalle.explicacion}
                 </div>
               )}
